@@ -116,7 +116,7 @@
 
     <script>
         function fetchSoilData() {
-            fetch('http://127.0.0.1:1000/get_soil_data') // Update with your API endpoint
+            fetch('http://0.0.0.0:10000/get_soil_data') // Update with your API endpoint
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById("n").innerText = data.N;
