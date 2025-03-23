@@ -206,7 +206,7 @@
                 <tbody></tbody>
             </table>
             <div class="download-container">
-                <a href="http://192.168.0.107:5003/download_excel" class="download-btn" download>Download Excel Dataset</a>
+                <a href="http://127.0.0.1:1000/download_excel" class="download-btn" download>Download Excel Dataset</a>
             </div>
             
         </div>
@@ -236,7 +236,7 @@
 
         async function fetchSoilData() {
     try {
-        let response = await fetch("http://192.168.0.107:5003/get_soil_data");
+        let response = await fetch("http://127.0.0.1:1000/get_soil_data");
         let result = await response.json();
 
         if (!result.error) {
@@ -258,7 +258,7 @@
 }
 
 async function loadExcelData() {
-    let response = await fetch("http://192.168.0.107:5003/get_excel_data");
+    let response = await fetch("http://127.0.0.1:1000/get_excel_data");
     let result = await response.json();
 
     let tbody = document.querySelector("#excel-table tbody");
