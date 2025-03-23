@@ -206,7 +206,7 @@
                 <tbody></tbody>
             </table>
             <div class="download-container">
-                <a href="http://0.0.0.0:10000/download_excel" class="download-btn" download>Download Excel Dataset</a>
+                <a href="https://render-croprecomendation.onrender.com/download_excel" class="download-btn" download>Download Excel Dataset</a>
 
 
             </div>
@@ -226,7 +226,7 @@
                 "rainfall": document.getElementById("rainfall").value
             };
 
-            let response = await fetch("0.0.0.0:10000/predict", {
+            let response = await fetch("https://render-croprecomendation.onrender.com/predict", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data)
@@ -238,7 +238,7 @@
 
         async function fetchSoilData() {
     try {
-        let response = await fetch("http://0.0.0.0:10000/get_soil_data");
+        let response = await fetch("https://render-croprecomendation.onrender.com/get_soil_data");
 
         let result = await response.json();
 
