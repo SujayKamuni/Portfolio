@@ -261,7 +261,7 @@
 }
 
 async function loadExcelData() {
-    let response = await fetch("http://0.0.0.0:10000/get_excel_data");
+    let response = await fetch("https://render-croprecomendation.onrender.com/get_excel_data");
 
     let result = await response.json();
 
