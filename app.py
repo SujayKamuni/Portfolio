@@ -122,4 +122,4 @@ def get_soil_data():
 
 # Run the Flask App
 if __name__ == "__main__":
-    app.run()
+    app.run(host="0.0.0.0", port=1000, debug=True)
