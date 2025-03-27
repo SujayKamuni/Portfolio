@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Recommendation</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, rgba(224, 247, 233, 0.6), rgba(195, 226, 193, 0.6)),
+                        url("/static/background.jpg") no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* Navigation Bar */
+        .nav {
+            background-color: #2d572c;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            padding: 10px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .nav a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .nav a:hover {
+            background-color: #1b3b1b;
+            border-radius: 5px;
+        }
+
+        /* Main Container */
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-width: 1100px;
+            margin: 80px auto 20px auto;
+            padding: 30px;
+        }
+
+        /* Content Boxes */
+        .box {
+            flex: 1;
+            min-width: 320px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .box:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Headers */
+        h2 {
+            font-size: 1.5rem;
+            color: #2d572c;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            color: #1b3b1b;
+            text-align: center;
+        }
+
+        /* Input Fields & Buttons */
+        input, button {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #2d572c;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #1b3b1b;
+            transform: scale(1.05);
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            margin-top: 10px;
+            border-collapse: collapse;
+            overflow-x: auto;
+            display: block;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #2d572c;
+            color: white;
+        }
+        
+
+        /* Responsive Fix */
+        @media (max-width: 600px) {
+      .nav a {
+        font-size: 14px;
+        padding: 10px 15px;
+      }
+
+      .container, .section {
+        padding: 20px;
+      }
+
+      .stats-list {
+        flex-direction: column;
+        align-items: center;
+      }
+
+        /* download button */
+        .download-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .download-btn {
+            display: inline-block;
+            background-color: #2d572c;
+            color: white;
+            padding: 12px 20px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .download-btn:hover {
+            background-color: #1b3b1b;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <div class="nav">
+        <a href="Homepage.html">Home Page</a>
+        <a href="Sensor_data.html">Sensor Data</a>
+        <a href="index.html">Crop Recommendation</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="box">
+            <h2>🌾 Crop Recommendation System</h2>
+            <form id="cropForm">
+                <input type="number" id="N" placeholder="Nitrogen (N)">
+                <input type="number" id="P" placeholder="Phosphorus (P)">
+                <input type="number" id="K" placeholder="Potassium (K)">
+                <input type="number" id="ph" placeholder="pH Level">
+                <input type="number" id="ec" placeholder="EC (Electrical Conductivity)">
+                <input type="number" id="soil_moisture" placeholder="Soil Moisture (%)">
+                <input type="number" id="soil_temp" placeholder="Soil Temperature (°C)">
+                <input type="number" id="atm_temp" placeholder="Atmospheric Temperature (°C)">
+                <input type="number" id="atm_humidity" placeholder="Atmospheric Humidity (%)">
+                <input type="number" id="rainfall" placeholder="Rainfall (mm)">
+            </form>
+            <button onclick="fetchSoilData()">📡 Load Soil Data</button>
+            <p id="soil-data">No data available</p>
+            <button type="button" onclick="predictCrop()">🌱 Predict Crop</button>
+            <h3>Recommended Crop: <span id="result">-</span></h3>
+        </div>
+
+        
+    </div>
+    <div class="container">
+        <div class="box">
+            <h3>📁 Stored Crop Data</h3>
+            <table id="excel-table">
+                <thead>
+                    <tr>
+                        <th>Date</th><th>Time</th><th>N</th><th>P</th><th>K</th><th>pH</th><th>EC</th><th>Soil Moisture</th>
+                        <th>Soil Temp</th><th>Atm Temp</th><th>Atm Humidity</th><th>Rainfall</th>
+                        <th>Recommended Crop</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+        
+
+    <script>
+        async function fetchSoilData() {
+            try {
+                let response = await fetch("https://render-croprecomendation.onrender.com/get_soil_data");
+
+                let result = await response.json();
+
+                if (!result.error) {
+                    document.getElementById("N").value = result["N"];
+                    document.getElementById("P").value = result["P"];
+                    document.getElementById("K").value = result["K"];
+                    document.getElementById("ph").value = result["pH"];
+                    document.getElementById("ec").value = result["EC"];
+                    document.getElementById("soil_moisture").value = result["Soil_Moisture"];
+                    document.getElementById("soil_temp").value = result["Soil_Temp"];
+                    document.getElementById("atm_temp").value = result["Atm_Temp"];
+                    document.getElementById("atm_humidity").value = result["Atm_Humidity"];
+                    document.getElementById("rainfall").value = result["rainfall"];
+                    document.getElementById("soil-data").innerText = "✔ Soil Data Updated!";
+                } else {
+                    document.getElementById("soil-data").innerText = result.error;
+                }
+            } catch (error) {
+                console.error("Error fetching soil data:", error);
+                document.getElementById("soil-data").innerText = "❌ Failed to fetch data!";
+            }
+        }
+
+
+        async function predictCrop() {
+            let data = {
+                "N": document.getElementById("N").value,
+                "P": document.getElementById("P").value,
+                "K": document.getElementById("K").value,
+                "pH": document.getElementById("ph").value,
+                "EC": document.getElementById("ec").value,
+                "Soil_Moisture": document.getElementById("soil_moisture").value,
+                "Soil_Temp": document.getElementById("soil_temp").value,
+                "Atm_Temp": document.getElementById("atm_temp").value,
+                "Atm_Humidity": document.getElementById("atm_humidity").value,
+                "rainfall": document.getElementById("rainfall").value
+            };
+
+            let response = await fetch("https://render-croprecomendation.onrender.com/predict", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            });
+
+            let result = await response.json();
+            document.getElementById("result").innerText = result.recommended_crop || "Error!";
+        }
+
+        async function loadExcelData() {
+            let response = await fetch("https://render-croprecomendation.onrender.com/get_excel_data");
+            let result = await response.json();
+            let tbody = document.querySelector("#excel-table tbody");
+            tbody.innerHTML = "";
+
+            if (result.data.length > 0) {
+                result.data.forEach(row => {
+                    let tr = document.createElement("tr");
+                    tr.innerHTML = `
+                        <td>${row["Date"] || "-"}</td>
+                        <td>${row["Time"] || "-"}</td>
+                        <td>${row["Nitrogen (N)"] || "-"}</td>
+                        <td>${row["Phosphorus (P)"] || "-"}</td>
+                        <td>${row["Potassium (K)"] || "-"}</td>
+                        <td>${row["pH Level"] || "-"}</td>
+                        <td>${row["EC"] || "-"}</td>
+                        <td>${row["Soil Moisture"] || "-"}</td>
+                        <td>${row["Soil Temperature"] || "-"}</td>
+                        <td>${row["Atmospheric Temperature"] || "-"}</td>
+                        <td>${row["Atmospheric Humidity"] || "-"}</td>
+                        <td>${row["Rainfall"] || "-"}</td>
+                        <td>${row["Recommended Crop"] || "-"}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } else {
+                tbody.innerHTML = "<tr><td colspan='13'>No data available</td></tr>";
+            }
+        }
+        setInterval(loadExcelData, 1000);
+        loadExcelData();
+
+    </script>
+
+    <!-- Contact Section -->
+    <div class="contact-section">
+        <h3>Contact Us</h3>
+        <p>Email: farm_tech@gmail.com | Phone: +91 88888 88888</p>
+    </div>
+
+    <style>
+        .contact-section {
+            width: 100%;
+            background-color: #155724;
+            color: #d4edda;
+            text-align: center;
+            padding: 20px;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+
+</body>
+</html>
