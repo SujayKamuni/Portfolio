@@ -90,6 +90,7 @@
         flex-direction: column;
         align-items: center;
       }
+    }
     </style>
 </head>
 <body>
@@ -125,7 +126,7 @@
             <h2>Water Data</h2>
             <div class="container-wrapper">
                 <div class="container"><h3>TDS</h3><p id="tds">Loading...</p></div>
-                <div class="container"><h3>Water Temperature</h3><p id="water_temp">Loading...</p></div>
+                <div class="container"><h3>Water Temperature</h3><p id="water_temp">29</p></div>
                 <div class="container"><h3>Turbidity</h3><p id="turbidity">Loading...</p></div>
             </div>
         </div>
@@ -134,7 +135,7 @@
     <script>
         async function fetchSoilData() {
             try {
-                let response = await fetch("https://render-croprecomendation.onrender.com/get_soil_data");
+                let response = await fetch("http://192.168.233.96:5003/get_soil_data");
                 let result = await response.json();
 
                 if (!result.error) {
@@ -148,6 +149,7 @@
                     document.getElementById("humidity").innerText = result["Atm_Humidity"];
                     document.getElementById("rainfall").innerText = result["rainfall"];
                     document.getElementById("tds").innerText = result["TDS"];
+                    document.getElementById("turbidity").innerText = result["Turbidity"];
 
                     document.getElementById("soil-data").innerText = "✔ Soil Data Updated!";
                 } else {
@@ -163,5 +165,10 @@
         setInterval(fetchSoilData, 1000);
         fetchSoilData();
     </script>
+
+    <footer>
+        <h3>Made with ❤️ by Team FarmTech | Contact: farm_tech@gmail.com</h3>
+    </footer>
+
 </body>
 </html>
