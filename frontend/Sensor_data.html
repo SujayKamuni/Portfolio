@@ -135,7 +135,7 @@
     <script>
         async function fetchSoilData() {
             try {
-                let response = await fetch("http://192.168.233.96:5003/get_soil_data");
+                let response = await fetch("https://render-croprecomendation.onrender.com/get_soil_data");
                 let result = await response.json();
 
                 if (!result.error) {
