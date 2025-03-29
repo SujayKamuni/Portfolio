@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Soil Data</title>
+    <title>Crop Recommendation</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background: linear-gradient(135deg, rgba(224, 247, 233, 0.3), rgba(195, 226, 193, 0.3)),
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, rgba(224, 247, 233, 0.6), rgba(195, 226, 193, 0.6)),
                         url("/static/background.jpg") no-repeat center center fixed;
             background-size: cover;
             margin: 0;
             padding: 0;
+            color: #333;
         }
 
         /* Navigation Bar */
-    .nav {
+        .nav {
             background-color: #2d572c;
             display: flex;
             justify-content: center;
@@ -41,41 +41,91 @@
             border-radius: 5px;
         }
 
-        .wrapper {
-            max-width: 1200px;
-            margin: 100px auto 50px;
-            padding: 20px;
-        }
-
-        .section {
-            background-color: rgba(255, 255, 255, 0.92);
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-        }
-
-        .section h2 {
-            color: black;
-            padding: 10px;
-            border-radius: 15px;
-        }
-
-        .container-wrapper {
+        /* Main Container */
+        .container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             gap: 20px;
+            max-width: 1100px;
+            margin: 80px auto 20px auto;
+            padding: 30px;
         }
 
-        .container {
-            width: 220px;
+        /* Content Boxes */
+        .box {
+            flex: 1;
+            min-width: 320px;
             background: white;
-            padding: 15px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .box:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Headers */
+        h2 {
+            font-size: 1.5rem;
+            color: #2d572c;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            color: #1b3b1b;
             text-align: center;
         }
 
+        /* Input Fields & Buttons */
+        input, button {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #2d572c;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #1b3b1b;
+            transform: scale(1.05);
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            margin-top: 10px;
+            border-collapse: collapse;
+            overflow-x: auto;
+            display: block;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #2d572c;
+            color: white;
+        }
+        
+
+        /* Responsive Fix */
         @media (max-width: 600px) {
       .nav a {
         font-size: 14px;
@@ -91,65 +141,82 @@
         align-items: center;
       }
     }
+
     </style>
 </head>
 <body>
+
+    <!-- Navigation Bar -->
     <div class="nav">
         <a href="Homepage.html">Home Page</a>
         <a href="Sensor_data.html">Sensor Data</a>
         <a href="index.html">Crop Recommendation</a>
+        <a href="irrigation.html">Irrigation</a>
     </div>
 
-    <div class="wrapper">
-        <div class="section">
-            <h2>Soil Data</h2>
-            <div class="container-wrapper">
-                <div class="container"><h3>Nitrogen</h3><p id="N">Loading...</p></div>
-                <div class="container"><h3>Phosphorus</h3><p id="P">Loading...</p></div>
-                <div class="container"><h3>Potassium</h3><p id="K">Loading...</p></div>
-                <div class="container"><h3>Soil Temperature</h3><p id="soil_temp">Loading...</p></div>
-                <div class="container"><h3>Soil pH</h3><p id="ph">Loading...</p></div>
-                <div class="container"><h3>Soil Moisture</h3><p id="soil_moisture">Loading...</p></div>
-            </div>
+    <!-- Main Content -->
+    <div class="container">
+        <div class="box">
+            <h2>🌾 Crop Recommendation System</h2>
+            <form id="cropForm">
+                <input type="number" id="N" placeholder="Nitrogen (N)">
+                <input type="number" id="P" placeholder="Phosphorus (P)">
+                <input type="number" id="K" placeholder="Potassium (K)">
+                <input type="number" id="ph" placeholder="pH Level">
+                <input type="number" id="ec" placeholder="EC (Electrical Conductivity)">
+                <input type="number" id="soil_moisture" placeholder="Soil Moisture (%)">
+                <input type="number" id="soil_temp" placeholder="Soil Temperature (°C)">
+                <input type="number" id="atm_temp" placeholder="Atmospheric Temperature (°C)">
+                <input type="number" id="atm_humidity" placeholder="Atmospheric Humidity (%)">
+                <input type="number" id="rainfall" placeholder="Rainfall (mm)">
+            </form>
+            <button onclick="fetchSoilData()">📡 Load Soil Data</button>
+            <p id="soil-data">No data available</p>
+            <button type="button" onclick="predictCrop()">🌱 Predict Crop</button>
+            <h3>Recommended Crop: <span id="result">-</span></h3>
         </div>
 
-        <div class="section">
-            <h2>Environment Data</h2>
-            <div class="container-wrapper">
-                <div class="container"><h3>Atmospheric Temperature</h3><p id="temperature">Loading...</p></div>
-                <div class="container"><h3>Humidity</h3><p id="humidity">Loading...</p></div>
-                <div class="container"><h3>Rainfall</h3><p id="rainfall">Loading...</p></div>
-            </div>
-        </div>
-
-        <div class="section">
-            <h2>Water Data</h2>
-            <div class="container-wrapper">
-                <div class="container"><h3>TDS</h3><p id="tds">Loading...</p></div>
-                <div class="container"><h3>Turbidity</h3><p id="turbidity">Loading...</p></div>
-            </div>
+        
+    </div>
+    <div class="container">
+        <div class="box">
+            <h3>📁 Stored Crop Data</h3>
+            <table id="excel-table">
+                <thead>
+                    <tr>
+                        <th>Date</th><th>Time</th><th>N</th><th>P</th><th>K</th><th>pH</th><th>EC</th><th>Soil Moisture</th>
+                        <th>Soil Temp</th><th>Atm Temp</th><th>Atm Humidity</th><th>Rainfall</th>
+                        <th>Recommended Crop</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
         </div>
     </div>
+
+    <footer>
+        <h3>Made with ❤️ by Team FarmTech | Contact: farm_tech@gmail.com</h3>
+    </footer>
+        
 
     <script>
         async function fetchSoilData() {
             try {
                 let response = await fetch("https://render-croprecomendation.onrender.com/get_soil_data");
+
                 let result = await response.json();
 
                 if (!result.error) {
-                    document.getElementById("N").innerText = result["N"];
-                    document.getElementById("P").innerText = result["P"];
-                    document.getElementById("K").innerText = result["K"];
-                    document.getElementById("ph").innerText = result["pH"];  // Fix key name
-                    document.getElementById("soil_moisture").innerText = result["Soil_Moisture"];
-                    document.getElementById("soil_temp").innerText = result["Soil_Temp"];
-                    document.getElementById("temperature").innerText = result["Atm_Temp"];  // Atmospheric temperature
-                    document.getElementById("humidity").innerText = result["Atm_Humidity"];
-                    document.getElementById("rainfall").innerText = result["rainfall"];
-                    document.getElementById("tds").innerText = result["TDS"];
-                    document.getElementById("turbidity").innerText = result["Turbidity"];
-
+                    document.getElementById("N").value = result["N"];
+                    document.getElementById("P").value = result["P"];
+                    document.getElementById("K").value = result["K"];
+                    document.getElementById("ph").value = result["pH"];
+                    document.getElementById("ec").value = result["EC"];
+                    document.getElementById("soil_moisture").value = result["Soil_Moisture"];
+                    document.getElementById("soil_temp").value = result["Soil_Temp"];
+                    document.getElementById("atm_temp").value = result["Atm_Temp"];
+                    document.getElementById("atm_humidity").value = result["Atm_Humidity"];
+                    document.getElementById("rainfall").value = result["rainfall"];
                     document.getElementById("soil-data").innerText = "✔ Soil Data Updated!";
                 } else {
                     document.getElementById("soil-data").innerText = result.error;
@@ -160,14 +227,65 @@
             }
         }
 
-        // Fetch data every second
-        setInterval(fetchSoilData, 1000);
-        fetchSoilData();
-    </script>
 
-    <footer>
-        <h3>Made with ❤️ by Team FarmTech | Contact: farm_tech@gmail.com</h3>
-    </footer>
+        async function predictCrop() {
+            let data = {
+                "N": document.getElementById("N").value,
+                "P": document.getElementById("P").value,
+                "K": document.getElementById("K").value,
+                "pH": document.getElementById("ph").value,
+                "EC": document.getElementById("ec").value,
+                "Soil_Moisture": document.getElementById("soil_moisture").value,
+                "Soil_Temp": document.getElementById("soil_temp").value,
+                "Atm_Temp": document.getElementById("atm_temp").value,
+                "Atm_Humidity": document.getElementById("atm_humidity").value,
+                "rainfall": document.getElementById("rainfall").value
+            };
+
+            let response = await fetch("https://render-croprecomendation.onrender.com/predict", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            });
+
+            let result = await response.json();
+            document.getElementById("result").innerText = result.recommended_crop || "Error!";
+        }
+
+        async function loadExcelData() {
+            let response = await fetch("/get_excel_data");
+            let result = await response.json();
+            let tbody = document.querySelector("#excel-table tbody");
+            tbody.innerHTML = "";
+
+            if (result.data.length > 0) {
+                result.data.forEach(row => {
+                    let tr = document.createElement("tr");
+                    tr.innerHTML = `
+                        <td>${row["Date"] || "-"}</td>
+                        <td>${row["Time"] || "-"}</td>
+                        <td>${row["Nitrogen (N)"] || "-"}</td>
+                        <td>${row["Phosphorus (P)"] || "-"}</td>
+                        <td>${row["Potassium (K)"] || "-"}</td>
+                        <td>${row["pH Level"] || "-"}</td>
+                        <td>${row["EC"] || "-"}</td>
+                        <td>${row["Soil Moisture"] || "-"}</td>
+                        <td>${row["Soil Temperature"] || "-"}</td>
+                        <td>${row["Atmospheric Temperature"] || "-"}</td>
+                        <td>${row["Atmospheric Humidity"] || "-"}</td>
+                        <td>${row["Rainfall"] || "-"}</td>
+                        <td>${row["Recommended Crop"] || "-"}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } else {
+                tbody.innerHTML = "<tr><td colspan='13'>No data available</td></tr>";
+            }
+        }
+        setInterval(loadExcelData, 1000);
+        loadExcelData();
+
+    </script>
 
 </body>
 </html>
