@@ -3,289 +3,173 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crop Recommendation</title>
+    <title>A Very Important Question</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, rgba(224, 247, 233, 0.6), rgba(195, 226, 193, 0.6)),
-                        url("/static/background.jpg") no-repeat center center fixed;
-            background-size: cover;
+            font-family: 'Inter', sans-serif;
+            background-color: #fce7f3; /* Light pink background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
             margin: 0;
-            padding: 0;
-            color: #333;
+            overflow: hidden; /* Hide scrollbars if button moves off-screen */
         }
-
-        /* Navigation Bar */
-        .nav {
-            background-color: #2d572c;
-            display: flex;
-            justify-content: center;
-            width: 100%;
-            padding: 10px 0;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-        }
-
-        .nav a {
-            color: white;
-            text-decoration: none;
-            padding: 12px 20px;
-            font-size: 16px;
-            font-weight: bold;
-        }
-
-        .nav a:hover {
-            background-color: #1b3b1b;
-            border-radius: 5px;
-        }
-
-        /* Main Container */
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            max-width: 1100px;
-            margin: 80px auto 20px auto;
-            padding: 30px;
-        }
-
-        /* Content Boxes */
-        .box {
-            flex: 1;
-            min-width: 320px;
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .box:hover {
-            transform: translateY(-5px);
-        }
-
-        /* Headers */
-        h2 {
-            font-size: 1.5rem;
-            color: #2d572c;
-        }
-
-        h3 {
-            font-size: 1.3rem;
-            color: #1b3b1b;
+        .card {
+            background-color: #ffffff;
+            border-radius: 1.5rem; /* More rounded corners */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 3rem;
             text-align: center;
+            max-width: 500px;
+            width: 90%; /* Responsive width */
+            position: relative; /* For button positioning if needed within card, though we'll use fixed for 'No' */
         }
-
-        /* Input Fields & Buttons */
-        input, button {
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 16px;
-            box-sizing: border-box;
+        .question {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #db2777; /* Deep pink */
+            margin-bottom: 2rem;
         }
-
-        button {
-            background-color: #2d572c;
-            color: white;
+        .btn {
+            padding: 0.75rem 2rem;
+            border-radius: 9999px; /* Pill shape */
+            font-weight: 600;
+            transition: all 0.2s ease-in-out;
             cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
+            border: none;
+            font-size: 1.125rem;
+        }
+        .btn-yes {
+            background-color: #ec4899; /* Pink-500 */
+            color: white;
+            box-shadow: 0 4px 6px rgba(236, 72, 153, 0.3);
+            margin-right: 1.5rem;
+        }
+        .btn-yes:hover {
+            background-color: #db2777; /* Pink-600 */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(219, 39, 119, 0.4);
+        }
+        .btn-no {
+            background-color: #f87171; /* Red-400 */
+            color: white;
+            box-shadow: 0 4px 6px rgba(248, 113, 113, 0.3);
+            position: fixed; /* Changed to fixed for viewport-relative movement */
+            white-space: nowrap; /* Prevent text wrap */
+            /* Initial positioning for 'No' button - will be overridden by JS */
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10; /* Ensure it's above other elements */
+        }
+        .btn-no:hover {
+            background-color: #ef4444; /* Red-500 */
+            box-shadow: 0 6px 8px rgba(239, 68, 68, 0.4);
         }
 
-        button:hover {
-            background-color: #1b3b1b;
-            transform: scale(1.05);
+        /* Message box styling */
+        .message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #4CAF50; /* Green */
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: none; /* Hidden by default */
+            text-align: center;
+            font-size: 1.2rem;
         }
-
-        /* Table Styling */
-        table {
-            width: 100%;
-            margin-top: 10px;
-            border-collapse: collapse;
-            overflow-x: auto;
+        .message-box.show {
             display: block;
         }
-
-        th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: center;
-            font-size: 14px;
-        }
-
-        th {
-            background-color: #2d572c;
+        .message-box button {
+            background-color: #388E3C; /* Darker green */
             color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
         }
-        
-
-        /* Responsive Fix */
-        @media (max-width: 600px) {
-      .nav a {
-        font-size: 14px;
-        padding: 10px 15px;
-      }
-
-      .container, .section {
-        padding: 20px;
-      }
-
-      .stats-list {
-        flex-direction: column;
-        align-items: center;
-      }
-    }
-
     </style>
 </head>
 <body>
 
-    <!-- Navigation Bar -->
-    <div class="nav">
-        <a href="Homepage.html">Home Page</a>
-        <a href="Sensor_data.html">Sensor Data</a>
-        <a href="index.html">Crop Recommendation</a>
-        <a href="irrigation.html">Irrigation</a>
-    </div>
-
-    <!-- Main Content -->
-    <div class="container">
-        <div class="box">
-            <h2>🌾 Crop Recommendation System</h2>
-            <form id="cropForm">
-                <input type="number" id="N" placeholder="Nitrogen (N)">
-                <input type="number" id="P" placeholder="Phosphorus (P)">
-                <input type="number" id="K" placeholder="Potassium (K)">
-                <input type="number" id="ph" placeholder="pH Level">
-                <input type="number" id="ec" placeholder="EC (Electrical Conductivity)">
-                <input type="number" id="soil_moisture" placeholder="Soil Moisture (%)">
-                <input type="number" id="soil_temp" placeholder="Soil Temperature (°C)">
-                <input type="number" id="atm_temp" placeholder="Atmospheric Temperature (°C)">
-                <input type="number" id="atm_humidity" placeholder="Atmospheric Humidity (%)">
-                <input type="number" id="rainfall" placeholder="Rainfall (mm)">
-            </form>
-            <button onclick="fetchSoilData()">📡 Load Soil Data</button>
-            <p id="soil-data">No data available</p>
-            <button type="button" onclick="predictCrop()">🌱 Predict Crop</button>
-            <h3>Recommended Crop: <span id="result">-</span></h3>
-        </div>
-
-        
-    </div>
-    <div class="container">
-        <div class="box">
-            <h3>📁 Stored Crop Data</h3>
-            <table id="excel-table">
-                <thead>
-                    <tr>
-                        <th>Date</th><th>Time</th><th>N</th><th>P</th><th>K</th><th>pH</th><th>EC</th><th>Soil Moisture</th>
-                        <th>Soil Temp</th><th>Atm Temp</th><th>Atm Humidity</th><th>Rainfall</th>
-                        <th>Recommended Crop</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+    <div class="card">
+        <p class="question">Will you marry me?</p>
+        <div class="flex justify-center items-center">
+            <button class="btn btn-yes" onclick="showMessage('Yes! I will marry you! ❤️')">Yes!</button>
+            <!-- The 'No' button is positioned fixed, so its initial placement here doesn't matter much for layout -->
+            <!-- It will be moved by JavaScript relative to the viewport -->
         </div>
     </div>
 
-    <footer>
-        <h3>Made with ❤️ by Team FarmTech | Contact: farm_tech@gmail.com</h3>
-    </footer>
-        
+    <!-- The 'No' button is placed outside the card for fixed positioning -->
+    <button id="noButton" class="btn btn-no">No</button>
+
+    <!-- Message Box -->
+    <div id="messageBox" class="message-box">
+        <p id="messageText"></p>
+        <button onclick="hideMessage()">OK</button>
+    </div>
 
     <script>
-        async function fetchSoilData() {
-            try {
-                let response = await fetch("https://render-croprecomendation.onrender.com/get_soil_data");
+        const noButton = document.getElementById('noButton');
+        const messageBox = document.getElementById('messageBox');
+        const messageText = document.getElementById('messageText');
 
-                let result = await response.json();
-
-                if (!result.error) {
-                    document.getElementById("N").value = result["N"];
-                    document.getElementById("P").value = result["P"];
-                    document.getElementById("K").value = result["K"];
-                    document.getElementById("ph").value = result["pH"];
-                    document.getElementById("ec").value = result["EC"];
-                    document.getElementById("soil_moisture").value = result["Soil_Moisture"];
-                    document.getElementById("soil_temp").value = result["Soil_Temp"];
-                    document.getElementById("atm_temp").value = result["Atm_Temp"];
-                    document.getElementById("atm_humidity").value = result["Atm_Humidity"];
-                    document.getElementById("rainfall").value = result["rainfall"];
-                    document.getElementById("soil-data").innerText = "✔ Soil Data Updated!";
-                } else {
-                    document.getElementById("soil-data").innerText = result.error;
-                }
-            } catch (error) {
-                console.error("Error fetching soil data:", error);
-                document.getElementById("soil-data").innerText = "❌ Failed to fetch data!";
-            }
+        // Function to display a custom message box
+        function showMessage(message) {
+            messageText.textContent = message;
+            messageBox.classList.add('show');
         }
 
-
-        async function predictCrop() {
-            let data = {
-                "N": document.getElementById("N").value,
-                "P": document.getElementById("P").value,
-                "K": document.getElementById("K").value,
-                "pH": document.getElementById("ph").value,
-                "EC": document.getElementById("ec").value,
-                "Soil_Moisture": document.getElementById("soil_moisture").value,
-                "Soil_Temp": document.getElementById("soil_temp").value,
-                "Atm_Temp": document.getElementById("atm_temp").value,
-                "Atm_Humidity": document.getElementById("atm_humidity").value,
-                "rainfall": document.getElementById("rainfall").value
-            };
-
-            let response = await fetch("https://render-croprecomendation.onrender.com/predict", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(data)
-            });
-
-            let result = await response.json();
-            document.getElementById("result").innerText = result.recommended_crop || "Error!";
+        // Function to hide the custom message box
+        function hideMessage() {
+            messageBox.classList.remove('show');
         }
 
-        async function loadExcelData() {
-            let response = await fetch("https://render-croprecomendation.onrender.com/get_excel_data");
-            let result = await response.json();
-            let tbody = document.querySelector("#excel-table tbody");
-            tbody.innerHTML = "";
+        // Function to move the 'No' button
+        function moveNoButton() {
+            const buttonRect = noButton.getBoundingClientRect();
 
-            if (result.data.length > 0) {
-                result.data.forEach(row => {
-                    let tr = document.createElement("tr");
-                    tr.innerHTML = `
-                        <td>${row["Date"] || "-"}</td>
-                        <td>${row["Time"] || "-"}</td>
-                        <td>${row["Nitrogen (N)"] || "-"}</td>
-                        <td>${row["Phosphorus (P)"] || "-"}</td>
-                        <td>${row["Potassium (K)"] || "-"}</td>
-                        <td>${row["pH Level"] || "-"}</td>
-                        <td>${row["EC"] || "-"}</td>
-                        <td>${row["Soil Moisture"] || "-"}</td>
-                        <td>${row["Soil Temperature"] || "-"}</td>
-                        <td>${row["Atmospheric Temperature"] || "-"}</td>
-                        <td>${row["Atmospheric Humidity"] || "-"}</td>
-                        <td>${row["Rainfall"] || "-"}</td>
-                        <td>${row["Recommended Crop"] || "-"}</td>
-                    `;
-                    tbody.appendChild(tr);
-                });
-            } else {
-                tbody.innerHTML = "<tr><td colspan='13'>No data available</td></tr>";
-            }
+            // Get viewport dimensions
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+
+            // Define a safe margin from the edges to keep the button somewhat central and accessible
+            const margin = 20; // pixels from edge
+
+            // Calculate random positions within the viewport, ensuring button stays fully visible
+            const newX = Math.random() * (viewportWidth - buttonRect.width - 2 * margin) + margin;
+            const newY = Math.random() * (viewportHeight - buttonRect.height - 2 * margin) + margin;
+
+            // Apply new position using fixed positioning relative to the viewport
+            noButton.style.left = `${newX}px`;
+            noButton.style.top = `${newY}px`;
+            noButton.style.transform = 'none'; // Remove any previous transforms like translate(-50%, -50%)
         }
-        setInterval(loadExcelData, 1000);
-        loadExcelData();
 
+        // Add event listeners for both mouseover (desktop) and touchstart (mobile)
+        noButton.addEventListener('mouseover', moveNoButton);
+        noButton.addEventListener('touchstart', moveNoButton);
+
+        // Add a click listener to the 'No' button as a fallback/test
+        noButton.addEventListener('click', () => {
+            showMessage("Are you sure? Try again! 😉");
+        });
+
+        // Initial positioning of the No button when the page loads
+        document.addEventListener('DOMContentLoaded', moveNoButton);
     </script>
-
 </body>
 </html>
