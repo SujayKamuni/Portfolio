@@ -1,246 +1,501 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Home Page</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, rgba(224, 247, 233, 0.6), rgba(195, 226, 193, 0.6)),
-                  url("/static/background.jpg") no-repeat center center fixed;
-      background-size: cover;
-      margin: 0;
-      padding: 0;
-      color: #333;
-    }
-
-    /* Navigation Bar */
-    .nav {
-            background-color: #2d572c;
-            display: flex;
-            justify-content: center;
-            width: 100%;
-            padding: 10px 0;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1000;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sujay Kamuni - Developer Portfolio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables for Light Mode (Default) */
+        :root {
+            --bg-color: #f3f4f6;
+            --text-color: #374151;
+            --card-bg-color: #ffffff;
+            --header-bg-color: #4f46e5; /* Indigo-600 */
+            --header-text-color: #ffffff;
+            --accent-color: #4f46e5; /* Indigo-600 */
+            --skill-tag-bg: #e0e7ff; /* Light indigo */
+            --link-hover-color: #3730a3; /* Darker indigo */
+            --border-color: #e5e7eb; /* Gray-200 */
         }
 
-        .nav a {
-            color: white;
-            text-decoration: none;
-            padding: 12px 20px;
-            font-size: 16px;
-            font-weight: bold;
+        /* CSS Variables for Dark Mode */
+        .dark-mode {
+            --bg-color: #1a202c; /* Dark gray */
+            --text-color: #e2e8f0; /* Light gray */
+            --card-bg-color: #2d3748; /* Darker gray */
+            --header-bg-color: #1a202c;
+            --header-text-color: #ffffff;
+            --accent-color: #818cf8; /* Lighter indigo for contrast */
+            --skill-tag-bg: #4338ca; /* Darker indigo */
+            --link-hover-color: #6366f1; /* Even lighter indigo */
+            --border-color: #4a5568; /* Darker gray border */
         }
 
-        .nav a:hover {
-            background-color: #1b3b1b;
-            border-radius: 5px;
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s; /* Smooth transition for theme change */
         }
 
-    .wrapper {
-      max-width: 1100px;
-      margin: 100px auto 50px;
-      padding: 0 20px;
-    }
+        .container {
+            max-width: 1200px; /* Increased max-width for more horizontal space */
+        }
 
-    .container {
-      background: white;
-      padding: 40px 30px;
-      border-radius: 12px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-      margin-bottom: 30px;
-    }
+        .section-title {
+            position: relative;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
 
-    .container h1 {
-      font-size: 2.2rem;
-      margin-bottom: 10px;
-      color: #2d572c;
-    }
+            .section-title::after {
+                content: '';
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                width: 60px;
+                height: 4px;
+                background-color: var(--accent-color); /* Uses accent color */
+                border-radius: 9999px;
+            }
 
-    .container p {
-      font-size: 1.1rem;
-      margin-bottom: 20px;
-    }
+        .card {
+            background-color: var(--card-bg-color); /* Uses card background color */
+            border-radius: 0.75rem; /* Rounded corners */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: background-color 0.3s, color 0.3s, box-shadow 0.3s; /* Smooth transition */
+        }
 
-    .cta-button {
-      padding: 10px 25px;
-      background-color: #2d572c;
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-      border-radius: 5px;
-      transition: background 0.3s ease;
-    }
+        .skill-tag {
+            display: inline-block;
+            background-color: var(--skill-tag-bg); /* Uses skill tag background color */
+            color: var(--accent-color); /* Uses accent color */
+            padding: 0.3rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem; /* text-sm */
+            font-weight: 500; /* font-medium */
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+        }
 
-    .cta-button:hover {
-      background-color: #1b3b1b;
-    }
+        .project-item {
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+        }
 
-    .section {
-      background-color: rgba(255, 255, 255, 0.92);
-      padding: 20px;
-      border-radius: 10px;
-      margin-bottom: 30px;
-    }
+            .project-item:hover {
+                transform: translateY(-5px);
+            }
 
-    .section h2 {
-      font-size: 1.6rem;
-      color: #2d572c;
-      margin-bottom: 15px;
-    }
+        .project-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
 
-    .stats-list {
-      display: flex;
-      justify-content: space-around;
-      flex-wrap: wrap;
-      gap: 20px;
-      font-size: 1.1rem;
-    }
+            .project-details.expanded {
+                max-height: 500px; /* Adjust as needed, should be large enough to contain content */
+                transition: max-height 0.5s ease-in;
+            }
 
-    .stats-item {
-      background: #e8f5e9;
-      padding: 15px 15px;
-      border-radius: 8px;
-      flex: 1 1 20px;
-      transition: transform 0.3s ease;  
-    }
+        .toggle-icon {
+            transition: transform 0.3s ease-in-out;
+        }
 
-    .stats-item:hover{
-        transform: translateY(-5px);
-    }
+            .toggle-icon.expanded {
+                transform: rotate(90deg);
+            }
 
-    footer {
-      text-align: center;
-      font-size: 0.9rem;
-      margin-top: 40px;
-      color: #555;
-    }
+        .icon-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--accent-color); /* Uses accent color */
+            font-weight: 500;
+            margin-top: 0.5rem;
+            transition: color 0.2s;
+        }
 
-    @media (max-width: 600px) {
-      .nav a {
-        font-size: 14px;
-        padding: 10px 15px;
-      }
+            .icon-link:hover {
+                color: var(--link-hover-color); /* Uses link hover color */
+            }
+        /* Styles for form inputs to adapt to dark mode */
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            background-color: var(--card-bg-color);
+            color: var(--text-color);
+            border-color: var(--border-color);
+        }
 
-      .container, .section {
-        padding: 20px;
-      }
+            input[type="text"]:focus,
+            input[type="email"]:focus,
+            textarea:focus {
+                border-color: var(--accent-color);
+                box-shadow: 0 0 0 1px var(--accent-color);
+            }
 
-      .stats-list {
-        flex-direction: column;
-        align-items: center;
-      }
-    }
+        /* Specific styles for the collapsible contact form */
+        .contact-form-container {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
 
-    .team-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 30px;
-    }
-
-    .team-card {
-    background-color: #f3fdf5;
-    padding: 20px;
-    border-radius: 12px;
-    text-align: center;
-    width: 200px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-    }
-
-    .team-card:hover {
-    transform: translateY(-5px);
-    }
-
-    .team-card img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    margin-bottom: 10px;
-    object-fit: cover;
-    }
-
-    .team-card h3 {
-    margin: 10px 0 5px;
-    font-size: 1.1rem;
-    color: #2d572c;
-    }
-
-    .team-card p {
-    font-size: 0.95rem;
-    color: #666;
-    }
-
-  </style>
+            .contact-form-container.expanded {
+                max-height: 700px; /* Adjust based on content height */
+            }
+    </style>
 </head>
-<body>
-  <!-- Navigation -->
-  <div class="nav">
-    <a href="Homepage.html">Home Page</a>
-    <a href="Sensor_data.html">Sensor Data</a>
-    <a href="index.html">Crop Recommendation</a>
-    <a href="irrigation.html">Irrigation</a>
-  </div>
+<body class="antialiased">
 
-  <!-- Content Wrapper -->
-  <div class="wrapper">
-    <!-- Welcome -->
-    <div class="container">
-      <h1>Welcome to Smart Farming</h1>
-      <p>Monitor real-time data, get AI-powered crop suggestions, and make smarter decisions for better yields.</p>
-      <a href="Sensor_data.html" class="cta-button">📡 View Live Sensor Data</a><p></p><br>
-    </div>
-    
-    <div class="section">
-      <h2>About This Platform</h2>
-      <p>This platform combines IoT sensors and artificial intelligence to support farmers in choosing the best crop based on soil and environmental conditions. Designed for accuracy, ease of use, and maximum yield.</p><br>
-      <h2>✨ Key Features</h2>
-      <div class="stats-list">
-      <div class="stats-item">📡 Sensor Monitoring</div>
-      <div class="stats-item">🌱 Crop Recommendation</div>
-      <div class="stats-item">☁️ Weather Tracking</div>
-      <div class="stats-item">📈 Data-Driven Insights</div>
-      </div><br>
-    </div>
+    <div class="container mx-auto p-6 lg:p-10">
 
-    <div class="section">
-        <h2>👥 Meet the Team</h2>
-        <div class="team-grid">
-            <div class="team-card">
-                <img src="https://ui-avatars.com/api/?name=Chirag+Patil&background=2d572c&color=fff&rounded=true&size=100" alt="Chirag Patil">
-                <h3>Chirag Patil</h3>
-                <p>Project Lead</p><p>Hardware/IoT Specialist</p>
+        <!-- Header Section -->
+        <header class="text-center mb-10 p-6 rounded-xl shadow-lg" style="background-color: var(--header-bg-color); color: var(--header-text-color);">
+            <div class="flex justify-between items-center mb-4">
+                <div class="flex-grow"></div> <!-- Spacer to push toggle to right -->
+                <button id="theme-toggle" class="p-2 rounded-full text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white transition-colors duration-300">
+                    <!-- Sun icon for light mode -->
+                    <svg id="sun-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h1M4 12H3m15.325 3.325l-.707.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                    <!-- Moon icon for dark mode -->
+                    <svg id="moon-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                    </svg>
+                </button>
+            </div>
+            <h1 class="text-4xl lg:text-5xl font-extrabold mb-2">SUJAY KAMUNI</h1>
+            <p class="text-xl lg:text-2xl font-light mb-4">Developer</p>
+            <div class="flex flex-col sm:flex-row justify-center items-center text-lg">
+                <span class="mb-2 sm:mb-0 sm:mr-4">📞 93245 95707</span>
+                <span class="mb-2 sm:mb-0 sm:mr-4">📧 kamunisujay@gmail.com</span>
+                <span>📍 Mumbai, Maharashtra</span>
+            </div>
+        </header>
+
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            <!-- Left Column (Summary, Skills, Interests, Contact Me) -->
+            <div class="lg:col-span-1">
+                <section class="card">
+                    <h2 class="text-2xl font-bold section-title mb-4" style="color: var(--text-color);">Summary</h2>
+                    <p class="text-gray-700" style="color: var(--text-color);">
+                        I am a passionate developer with skills in AI, game development, and embedded systems. I have hands-on experience with Unity, Python, and C, specializing in game mechanics and interactive technologies. My projects include developing a VR training simulator and an AR light control system, showcasing my ability to integrate intelligent systems with user interaction.
+                    </p>
+                </section>
+
+                <section class="card">
+                    <h2 class="text-2xl font-bold section-title mb-4" style="color: var(--text-color);">Skills</h2>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-tag">3D Printing</span>
+                        <span class="skill-tag">Arduino</span>
+                        <span class="skill-tag">C/C++</span>
+                        <span class="skill-tag">C#</span>
+                        <span class="skill-tag">IoT</span>
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">Robotics</span>
+                        <span class="skill-tag">Unity</span>
+                        <span class="skill-tag">Virtual Reality</span>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2 class="text-2xl font-bold section-title mb-4" style="color: var(--text-color);">Interests</h2>
+                    <p class="text-gray-700" style="color: var(--text-color);">
+                        Technological Passions: Interests in AI, game development, and embedded systems.
+                    </p>
+                </section>
+
+                <!-- Contact Me Section (Moved inside the left column) -->
+                <section class="card">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-2xl font-bold section-title mb-4" style="color: var(--text-color); margin-bottom: 0;">Contact Me</h2>
+                        <button id="contact-me-toggle" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2"
+                                style="background-color: var(--accent-color); color: var(--header-text-color); transition: background-color 0.3s, color 0.3s; focus-ring-color: var(--accent-color);">
+                            <span id="contact-me-button-text">Show Contact Form</span>
+                            <svg id="contact-me-toggle-icon" class="ml-2 -mr-1 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="contact-me-details" class="contact-form-container">
+                        <p class="mb-4 mt-4" style="color: var(--text-color);">
+                            Feel free to reach out if you have any questions, opportunities, or just want to connect!
+                        </p>
+                        <form action="#" method="POST" class="space-y-4">
+                            <div>
+                                <label for="name" class="block text-sm font-medium" style="color: var(--text-color);">Name</label>
+                                <input type="text" id="name" name="name" class="mt-1 block w-full rounded-md shadow-sm sm:text-sm p-2 border" style="border-color: var(--border-color);">
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium" style="color: var(--text-color);">Email</label>
+                                <input type="email" id="email" name="email" class="mt-1 block w-full rounded-md shadow-sm sm:text-sm p-2 border" style="border-color: var(--border-color);">
+                            </div>
+                            <div>
+                                <label for="subject" class="block text-sm font-medium" style="color: var(--text-color);">Subject</label>
+                                <input type="text" id="subject" name="subject" class="mt-1 block w-full rounded-md shadow-sm sm:text-sm p-2 border" style="border-color: var(--border-color);">
+                            </div>
+                            <div>
+                                <label for="message" class="block text-sm font-medium" style="color: var(--text-color);">Message</label>
+                                <textarea id="message" name="message" rows="4" class="mt-1 block w-full rounded-md shadow-sm sm:text-sm p-2 border" style="border-color: var(--border-color);"></textarea>
+                            </div>
+                            <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white" style="background-color: var(--accent-color); transition: background-color 0.3s;">
+                                Send Message
+                            </button>
+                        </form>
+                        <p class="text-sm mt-4" style="color: var(--text-color);">
+                            Alternatively, you can reach me directly at: <a href="mailto:kamunisujay@gmail.com" class="icon-link" style="color: var(--accent-color);">kamunisujay@gmail.com</a> or call <a href="tel:+919324595707" class="icon-link" style="color: var(--accent-color);">93245 95707</a>.
+                        </p>
+                    </div>
+                </section>
             </div>
 
-            <div class="team-card">
-                <img src="https://ui-avatars.com/api/?name=Sujay+Kamuni&background=2d572c&color=fff&rounded=true&size=100" alt="Sujay Kamuni">
-                <h3>Sujay Kamuni</h3>
-                <p>Backend and Frontend Developer</p>
-            </div>
-            
-            <div class="team-card">
-                <img src="https://ui-avatars.com/api/?name=Rachit+Patil&background=2d572c&color=fff&rounded=true&size=100" alt="Rachit Patil">
-                <h3>Rachit Patil</h3>
-                <p>Frontend Developer</p>
-            </div>
+            <!-- Right Column (Experience, Education, Projects, Testimonials) -->
+            <div class="lg:col-span-2">
+                <section class="card">
+                    <h2 class="text-2xl font-bold section-title mb-4" style="color: var(--text-color);">Experience</h2>
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold" style="color: var(--accent-color);">Game Development Intern</h3>
+                        <p class="text-gray-600" style="color: var(--text-color);">Parallax Labs | Mumbai, Maharashtra | 06/2023-07/2023</p>
+                        <ul class="list-disc list-inside mt-2 text-gray-700" style="color: var(--text-color);">
+                            <li>Worked on multiple projects</li>
+                            <li>Gained hands-on experience in game development with Unity</li>
+                            <li>Collaborated with a team to develop and refine game mechanics</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold" style="color: var(--accent-color);">Research Intern</h3>
+                        <p class="text-gray-600" style="color: var(--text-color);">Indian Institute of Technology Bombay (IITB) | Mumbai, Maharashtra | 12/2024-01/2025</p>
+                        <ul class="list-disc list-inside mt-2 text-gray-700" style="color: var(--text-color);">
+                            <li>Researched UAV powertrain components at IIT Bombay</li>
+                            <li>Built a current-sensing system for engine start detection</li>
+                            <li>Developed and tested motor control using microcontrollers</li>
+                        </ul>
+                    </div>
+                </section>
 
-          <div class="team-card">
-            <img src="https://ui-avatars.com/api/?name=Harsh+Patil&background=2d572c&color=fff&rounded=true&size=100" alt="Harsh Patil">
-            <h3>Harsh Patil</h3>
-            <p>Hardware/IoT Specialist</p>
-          </div>
+                <section class="card">
+                    <h2 class="text-2xl font-bold section-title mb-4" style="color: var(--text-color);">Education</h2>
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold" style="color: var(--accent-color);">Diploma in Automation & Robotics</h3>
+                        <p class="text-gray-600" style="color: var(--text-color);">Vivekanand Education Society Polytechnic | Mumbai, Maharashtra | 2021-2024</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold" style="color: var(--accent-color);">B.Tech in Robotics & Artificial Intelligence</h3>
+                        <p class="text-gray-600" style="color: var(--text-color);">K.J. Somaiya College of Engineering | Mumbai, Maharashtra | 2024-2027</p>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2 class="text-2xl font-bold section-title mb-4" style="color: var(--text-color);">Projects</h2>
+
+                    <!-- Project 1: Virtual Reality Army Training Simulator -->
+                    <div class="mb-6 border-b pb-4 last:border-b-0 last:pb-0" style="border-color: var(--border-color);">
+                        <div class="flex justify-between items-center project-item" onclick="toggleProject('vr-simulator')">
+                            <h3 class="text-xl font-semibold" style="color: var(--accent-color);">Virtual Reality Army Training Simulator</h3>
+                            <span class="text-2xl toggle-icon" id="vr-simulator-icon" style="color: var(--accent-color);">▶</span>
+                        </div>
+                        <p class="text-gray-600 mb-2" style="color: var(--text-color);">08/2023-10/2023</p>
+                        <div id="vr-simulator-details" class="project-details">
+                            <ul class="list-disc list-inside mt-2 text-gray-700" style="color: var(--text-color);">
+                                <li>Developed a VR-based training simulator for army soldiers, featuring mechanics like aiming, reloading, and weapon handling.</li>
+                                <li>Implemented interactive VR controls using Unity and C#.</li>
+                            </ul>
+                            <div class="mt-4">
+                                <p class="font-semibold" style="color: var(--text-color);">Demo Video:</p>
+                                <p class="text-gray-600">
+                                    <a href="https://drive.google.com/file/d/1XhEkmAdPQqkkjZkMHhCDHAEVag1LcePV/view?usp=drive_link" class="icon-link" target="_blank">
+                                        <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M2 6a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zm3.455 1.636A2 2 0 005 8v4a2 2 0 003.455 1.636L12 12V8l-3.545-2.364z"></path></svg>
+                                        Watch Demo
+                                    </a>
+                                </p>
+                                <p class="font-semibold mt-2" style="color: var(--text-color);">GitHub Repository:</p>
+                                <p class="text-gray-600">
+                                    <a href="#github-repo-link-1" class="icon-link" target="_blank">
+                                        <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 0C4.477 0 0 4.484 0 10.017c0 4.417 2.865 8.167 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.867-.013-1.702-2.782.603-3.369-1.34-3.369-1.34-.454-1.154-1.11-1.46-1.11-1.46-.908-.618.069-.606.069-.606 1.003.07 1.531 1.032 1.531 1.032.892 1.529 2.341 1.089 2.91.835.092-.647.35-1.089.636-1.338-2.22-.253-4.555-1.116-4.555-4.945 0-1.092.39-1.988 1.029-2.681-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.025A9.43 9.43 0 0110 4.887c.85.004 1.7.11 2.492.329 1.909-1.296 2.747-1.025 2.747-1.025.546 1.379.202 2.398.099 2.651.64.693 1.028 1.589 1.028 2.681 0 3.839-2.339 4.686-4.568 4.935.359.307.678.915.678 1.846 0 1.335-.012 2.41-.012 2.727 0 .268.18.579.688.482C17.13 18.17 20 14.418 20 10.017 20 4.484 15.522 0 10 0z" clip-rule="evenodd"></path></svg>
+                                        View Code (Placeholder)
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 2: Augmented Reality Light Control System -->
+                    <div class="mb-6 border-b pb-4 last:border-b-0 last:pb-0" style="border-color: var(--border-color);">
+                        <div class="flex justify-between items-center project-item" onclick="toggleProject('ar-light-control')">
+                            <h3 class="text-xl font-semibold" style="color: var(--accent-color);">Augmented Reality Light Control System</h3>
+                            <span class="text-2xl toggle-icon" id="ar-light-control-icon" style="color: var(--accent-color);">▶</span>
+                        </div>
+                        <p class="text-gray-600 mb-2" style="color: var(--text-color);">06/2023-07/2023</p>
+                        <div id="ar-light-control-details" class="project-details">
+                            <ul class="list-disc list-inside mt-2 text-gray-700" style="color: var(--text-color);">
+                                <li>Developed an AR-based system that allows users to control light intensity using hand gestures.</li>
+                                <li>Implemented real-time gesture recognition for a seamless and interactive user experience.</li>
+                            </ul>
+                            <div class="mt-4">
+                                <p class="font-semibold" style="color: var(--text-color);">Demo Video:</p>
+                                <p class="text-gray-600">
+                                    <a href="https://drive.google.com/file/d/1TV3gKycf4zpGdthb7q9uWF3nxrki5uDX/view?usp=drive_link" class="icon-link" target="_blank">
+                                        <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M2 6a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zm3.455 1.636A2 2 0 005 8v4a2 2 0 003.455 1.636L12 12V8l-3.545-2.364z"></path></svg>
+                                        Watch Demo
+                                    </a>
+                                </p>
+                                <p class="font-semibold mt-2" style="color: var(--text-color);">GitHub Repository:</p>
+                                <p class="text-gray-600">
+                                    <a href="#github-repo-link-2" class="icon-link" target="_blank">
+                                        <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 0C4.477 0 0 4.484 0 10.017c0 4.417 2.865 8.167 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.867-.013-1.702-2.782.603-3.369-1.34-3.369-1.34-.454-1.154-1.11-1.46-1.11-1.46-.908-.618.069-.606.069-.606 1.003.07 1.531 1.032 1.531 1.032.892 1.529 2.341 1.089 2.91.835.092-.647.35-1.089.636-1.338-2.22-.253-4.555-1.116-4.555-4.945 0-1.092.39-1.988 1.029-2.681-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.025A9.43 9.43 0 0110 4.887c.85.004 1.7.11 2.492.329 1.909-1.296 2.747-1.025 2.747-1.025.546 1.379.202 2.398.099 2.651.64.693 1.028 1.589 1.028 2.681 0 3.839-2.339 4.686-4.568 4.935.359.307.678.915.678 1.846 0 1.335-.012 2.41-.012 2.727 0 .268.18.579.688.482C17.13 18.17 20 14.418 20 10.017 20 4.484 15.522 0 10 0z" clip-rule="evenodd"></path></svg>
+                                        View Code (Placeholder)
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 3: AI based Crop Recommendation System -->
+                    <div class="mb-6 border-b pb-4 last:border-b-0 last:pb-0" style="border-color: var(--border-color);">
+                        <div class="flex justify-between items-center project-item" onclick="toggleProject('crop-recommendation')">
+                            <h3 class="text-xl font-semibold" style="color: var(--accent-color);">AI based Crop Recommendation System</h3>
+                            <span class="text-2xl toggle-icon" id="crop-recommendation-icon" style="color: var(--accent-color);">▶</span>
+                        </div>
+                        <p class="text-gray-600 mb-2" style="color: var(--text-color);">03/2025-05/2025</p>
+                        <div id="crop-recommendation-details" class="project-details">
+                            <ul class="list-disc list-inside mt-2 text-gray-700" style="color: var(--text-color);">
+                                <li>Developed an AI-powered crop prediction web application integrated with IoT sensor data for smart farming.</li>
+                                <li>Built the frontend and backend for real-time crop recommendations using Random Forest, with a user-friendly interface to visualize predictions based on live soil and environmental sensor inputs.</li>
+                            </ul>
+                            <div class="mt-4">
+                                <p class="font-semibold" style="color: var(--text-color);">Demo Video:</p>
+                                <p class="text-gray-600">
+                                    <a href="https://drive.google.com/file/d/1TUs43o26nM7ld52avZJ8HugbKFgSku6Q/view?usp=drive_link" class="icon-link" target="_blank">
+                                        <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M2 6a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zm3.455 1.636A2 2 0 005 8v4a2 2 0 003.455 1.636L12 12V8l-3.545-2.364z"></path></svg>
+                                        Watch Demo
+                                    </a>
+                                </p>
+                                <p class="font-semibold mt-2" style="color: var(--text-color);">GitHub Repository:</p>
+                                <p class="text-gray-600">
+                                    <a href="#github-repo-link-3" class="icon-link" target="_blank">
+                                        <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 0C4.477 0 0 4.484 0 10.017c0 4.417 2.865 8.167 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.867-.013-1.702-2.782.603-3.369-1.34-3.369-1.34-.454-1.154-1.11-1.46-1.11-1.46-.908-.618.069-.606.069-.606 1.003.07 1.531 1.032 1.531 1.032.892 1.529 2.341 1.089 2.91.835.092-.647.35-1.089.636-1.338-2.22-.253-4.555-1.116-4.555-4.945 0-1.092.39-1.988 1.029-2.681-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.025A9.43 9.43 0 0110 4.887c.85.004 1.7.11 2.492.329 1.909-1.296 2.747-1.025 2.747-1.025.546 1.379.202 2.398.099 2.651.64.693 1.028 1.589 1.028 2.681 0 3.839-2.339 4.686-4.568 4.935.359.307.678.915.678 1.846 0 1.335-.012 2.41-.012 2.727 0 .268.18.579.688.482C17.13 18.17 20 14.418 20 10.017 20 4.484 15.522 0 10 0z" clip-rule="evenodd"></path></svg>
+                                        View Code (Placeholder)
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+
+                <section class="card">
+                    <h2 class="text-2xl font-bold section-title mb-4" style="color: var(--text-color);">Testimonials</h2>
+                    <div class="mb-4 italic" style="color: var(--text-color);">
+                        <p>"Sujay is a highly motivated and skilled developer. His work on the VR simulator was exceptional, demonstrating a strong grasp of Unity and C#."</p>
+                        <p class="text-right mt-2 font-semibold">- [Name of Recommender], [Title/Organization]</p>
+                    </div>
+                    <div class="italic" style="color: var(--text-color);">
+                        <p>"I was impressed by Sujay's ability to integrate complex gesture recognition into the AR light control system. He's a quick learner and a valuable team member."</p>
+                        <p class="text-right mt-2 font-semibold">- [Name of Recommender], [Title/Organization]</p>
+                    </div>
+                </section>
+            </div>
         </div>
-      </div>
-       
-  </div>
 
-  <footer>
-    <h3>Made with ❤️ by Team FarmTech | Contact: farm_tech@gmail.com</h3>
-  </footer>
+    </div>
+
+
+    <!-- Footer Section -->
+    <footer class="text-center text-gray-500 text-sm mt-10 p-6" style="color: var(--text-color);">
+        <p>&copy; 2025 Sujay Kamuni. All rights reserved.</p>
+        <!-- Add social media links here if desired -->
+    </footer>
+
+
+    <script>
+        function toggleProject(projectId) {
+            const details = document.getElementById(`${projectId}-details`);
+            const icon = document.getElementById(`${projectId}-icon`);
+
+            if (details.classList.contains('expanded')) {
+                details.classList.remove('expanded');
+                icon.classList.remove('expanded');
+                icon.textContent = '▶'; // Right arrow
+            } else {
+                details.classList.add('expanded');
+                icon.classList.add('expanded');
+                icon.textContent = '▼'; // Down arrow
+            }
+        }
+
+        // Dark Mode Toggle Logic
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const sunIcon = document.getElementById('sun-icon');
+        const moonIcon = document.getElementById('moon-icon');
+
+        // Function to set the theme
+        function setTheme(isDarkMode) {
+            if (isDarkMode) {
+                document.body.classList.add('dark-mode');
+                sunIcon.style.display = 'block';
+                moonIcon.style.display = 'none';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.body.classList.remove('dark-mode');
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'block';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Check for saved theme preference on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                setTheme(true);
+            } else {
+                setTheme(false); // Default to light if no preference or 'light'
+            }
+            // Initialize contact form state on load
+            const contactDetails = document.getElementById('contact-me-details');
+            const contactToggleButtonText = document.getElementById('contact-me-button-text');
+            const contactToggleIcon = document.getElementById('contact-me-toggle-icon');
+
+            // Ensure it starts collapsed
+            contactDetails.classList.remove('expanded');
+            contactToggleButtonText.textContent = 'Show Contact Form';
+            contactToggleIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>'; // Right arrow
+        });
+
+        // Toggle theme on button click
+        themeToggleBtn.addEventListener('click', () => {
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            setTheme(!isDarkMode);
+        });
+
+        // Contact Me Toggle Logic
+        const contactMeToggleButton = document.getElementById('contact-me-toggle');
+        contactMeToggleButton.addEventListener('click', () => {
+            const contactDetails = document.getElementById('contact-me-details');
+            const contactToggleButtonText = document.getElementById('contact-me-button-text');
+            const contactToggleIcon = document.getElementById('contact-me-toggle-icon');
+
+            if (contactDetails.classList.contains('expanded')) {
+                contactDetails.classList.remove('expanded');
+                contactToggleButtonText.textContent = 'Show Contact Form';
+                contactToggleIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>'; // Right arrow
+            } else {
+                contactDetails.classList.add('expanded');
+                contactToggleButtonText.textContent = 'Hide Contact Form';
+                contactToggleIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>'; // Down arrow
+            }
+        });
+    </script>
 </body>
 </html>
