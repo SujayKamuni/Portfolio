@@ -1,10 +1,6 @@
 Flask==3.1.0
 flask-cors==5.0.1
 requests==2.31.0
-numpy==1.24.3
 pandas==2.0.3
 openpyxl==3.1.2
-scikit-learn==1.6.1
 gunicorn==23.0.0
-setuptools>=65.5.0 # Added to ensure build backend is available
-wheel>=0.40.0     # Added for building wheels
