@@ -3,499 +3,636 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sujay Kamuni - Developer Portfolio</title>
+    <title>Sujay Kamuni - Portfolio</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Inter Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Lucide Icons CDN (for general icons) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        /* CSS Variables for Light Mode (Default) */
-        :root {
-            --bg-color: #f3f4f6;
-            --text-color: #374151;
-            --card-bg-color: #ffffff;
-            --header-bg-color: #4f46e5; /* Indigo-600 */
-            --header-text-color: #ffffff;
-            --accent-color: #4f46e5; /* Indigo-600 */
-            --skill-tag-bg: #e0e7ff; /* Light indigo */
-            --link-hover-color: #3730a3; /* Darker indigo */
-            --border-color: #e5e7eb; /* Gray-200 */
-        }
-
-        /* CSS Variables for Dark Mode */
-        .dark-mode {
-            --bg-color: #1a202c; /* Dark gray */
-            --text-color: #e2e8f0; /* Light gray */
-            --card-bg-color: #2d3748; /* Darker gray */
-            --header-bg-color: #1a202c;
-            --header-text-color: #ffffff;
-            --accent-color: #818cf8; /* Lighter indigo for contrast */
-            --skill-tag-bg: #4338ca; /* Darker indigo */
-            --link-hover-color: #6366f1; /* Even lighter indigo */
-            --border-color: #4a5568; /* Darker gray border */
-        }
-
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            transition: background-color 0.3s, color 0.3s; /* Smooth transition for theme change */
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+        /* Custom Scrollbar Style */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #374151; /* gray-700 */
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #4f46e5; /* indigo-600 */
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #6366f1; /* indigo-500 */
         }
 
-        .container {
-            max-width: 1200px; /* Increased max-width for more horizontal space */
-        }
-
-        .section-title {
-            position: relative;
-            padding-bottom: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-            .section-title::after {
-                content: '';
-                position: absolute;
-                left: 0;
-                bottom: 0;
-                width: 60px;
-                height: 4px;
-                background-color: var(--accent-color); /* Uses accent color */
-                border-radius: 9999px;
+        /* Keyframe animations */
+        @keyframes fadeInFromBottom {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
             }
-
-        .card {
-            background-color: var(--card-bg-color); /* Uses card background color */
-            border-radius: 0.75rem; /* Rounded corners */
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            transition: background-color 0.3s, color 0.3s, box-shadow 0.3s; /* Smooth transition */
-        }
-
-        .skill-tag {
-            display: inline-block;
-            background-color: var(--skill-tag-bg); /* Uses skill tag background color */
-            color: var(--accent-color); /* Uses accent color */
-            padding: 0.3rem 0.75rem;
-            border-radius: 0.5rem;
-            font-size: 0.875rem; /* text-sm */
-            font-weight: 500; /* font-medium */
-            margin-right: 0.5rem;
-            margin-bottom: 0.5rem;
-            transition: background-color 0.3s, color 0.3s; /* Smooth transition */
-        }
-
-        .project-item {
-            cursor: pointer;
-            transition: transform 0.2s ease-in-out;
-        }
-
-            .project-item:hover {
-                transform: translateY(-5px);
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
-
-        .project-details {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
         }
 
-            .project-details.expanded {
-                max-height: 500px; /* Adjust as needed, should be large enough to contain content */
-                transition: max-height 0.5s ease-in;
-            }
-
-        .toggle-icon {
-            transition: transform 0.3s ease-in-out;
+        .animate-fade-in-up {
+            animation: fadeInFromBottom 0.8s ease-out forwards;
         }
 
-            .toggle-icon.expanded {
-                transform: rotate(90deg);
-            }
-
-        .icon-link {
-            display: inline-flex;
-            align-items: center;
-            color: var(--accent-color); /* Uses accent color */
-            font-weight: 500;
-            margin-top: 0.5rem;
-            transition: color 0.2s;
+        .animate-fade-in-up.delay-200 {
+            animation-delay: 0.2s;
         }
 
-            .icon-link:hover {
-                color: var(--link-hover-color); /* Uses link hover color */
-            }
-        /* Styles for form inputs to adapt to dark mode */
-        input[type="text"],
-        input[type="email"],
-        textarea {
-            background-color: var(--card-bg-color);
-            color: var(--text-color);
-            border-color: var(--border-color);
+        /* For nested list bullets */
+        ul.list-circle li::marker {
+            content: "• ";
+            color: #818cf8; /* A lighter indigo for contrast */
         }
-
-            input[type="text"]:focus,
-            input[type="email"]:focus,
-            textarea:focus {
-                border-color: var(--accent-color);
-                box-shadow: 0 0 0 1px var(--accent-color);
-            }
-
-        /* Specific styles for the collapsible contact form */
-        .contact-form-container {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease-in-out;
-        }
-
-            .contact-form-container.expanded {
-                max-height: 700px; /* Adjust based on content height */
-            }
     </style>
 </head>
-<body class="antialiased">
+<body class="min-h-screen bg-gradient-to-br from-gray-900 to-indigo-950 text-gray-100">
 
-    <div class="container mx-auto p-6 lg:p-10">
-
-        <!-- Header Section -->
-        <header class="text-center mb-10 p-6 rounded-xl shadow-lg" style="background-color: var(--header-bg-color); color: var(--header-text-color);">
-            <div class="flex justify-between items-center mb-4">
-                <div class="flex-grow"></div> <!-- Spacer to push toggle to right -->
-                <button id="theme-toggle" class="p-2 rounded-full text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white transition-colors duration-300">
-                    <!-- Sun icon for light mode -->
-                    <svg id="sun-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display: none;">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h1M4 12H3m15.325 3.325l-.707.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
-                    </svg>
-                    <!-- Moon icon for dark mode -->
-                    <svg id="moon-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display: none;">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-gray-900 bg-opacity-80 backdrop-blur-sm shadow-lg p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-2xl font-bold text-indigo-400">SUJAY KAMUNI</div>
+            <div class="hidden md:flex space-x-6">
+                <button onclick="scrollToSection('home')" class="flex items-center space-x-2 text-gray-300 hover:text-indigo-400 transition-colors duration-300 transform hover:scale-105">
+                    <i data-lucide="home" class="w-5 h-5"></i>
+                    <span>Home</span>
+                </button>
+                <button onclick="scrollToSection('about')" class="flex items-center space-x-2 text-gray-300 hover:text-indigo-400 transition-colors duration-300 transform hover:scale-105">
+                    <i data-lucide="user" class="w-5 h-5"></i>
+                    <span>About</span>
+                </button>
+                <button onclick="scrollToSection('portfolio')" class="flex items-center space-x-2 text-gray-300 hover:text-indigo-400 transition-colors duration-300 transform hover:scale-105">
+                    <i data-lucide="briefcase" class="w-5 h-5"></i>
+                    <span>Portfolio</span>
+                </button>
+                <button onclick="scrollToSection('contact')" class="flex items-center space-x-2 text-gray-300 hover:text-indigo-400 transition-colors duration-300 transform hover:scale-105">
+                    <i data-lucide="mail" class="w-5 h-5"></i>
+                    <span>Contact</span>
+                </button>
+            </div>
+            <!-- Mobile Menu Button (Hamburger) -->
+            <div class="md:hidden">
+                <button class="text-gray-300 hover:text-indigo-400">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
                 </button>
             </div>
-            <h1 class="text-4xl lg:text-5xl font-extrabold mb-2">SUJAY KAMUNI</h1>
-            <p class="text-xl lg:text-2xl font-light mb-4">Developer</p>
-            <div class="flex flex-col sm:flex-row justify-center items-center text-lg">
-                <span class="mb-2 sm:mb-0 sm:mr-4">📞 93245 95707</span>
-                <span class="mb-2 sm:mb-0 sm:mr-4">📧 kamunisujay@gmail.com</span>
-                <span>📍 Mumbai, Maharashtra</span>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative h-screen flex flex-col items-center justify-center text-center p-4 overflow-hidden">
+        <div class="absolute inset-0 bg-cover bg-center opacity-30" style="background-image: url('https://placehold.co/1920x1080/1a202c/e2e8f0?text=Background+Image');"></div>
+        <div class="relative z-10">
+            <div class="flex space-x-6 mb-8 text-indigo-400">
+                <i data-lucide="code" class="w-12 h-12 p-2 bg-gray-800 rounded-full shadow-lg"></i>
+                <i data-lucide="user" class="w-12 h-12 p-2 bg-gray-800 rounded-full shadow-lg"></i>
+                <i data-lucide="briefcase" class="w-12 h-12 p-2 bg-gray-800 rounded-full shadow-lg"></i>
             </div>
-        </header>
+            <h1 class="text-5xl md:text-7xl font-extrabold leading-tight text-white drop-shadow-lg animate-fade-in-up">
+                Welcome To My <span class="text-indigo-400">Portfolio</span> Website
+            </h1>
+            <p class="mt-6 text-lg md:text-xl text-gray-300 max-w-2xl mx-auto animate-fade-in-up delay-200">
+                Showcasing my journey, projects, and skills in the world of game development and intelligent systems.
+            </p>
+        </div>
+    </section>
 
-        <!-- Main Content Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-            <!-- Left Column (Summary, Skills, Interests, Contact Me) -->
-            <div class="lg:col-span-1">
-                <section class="card">
-                    <h2 class="text-2xl font-bold section-title mb-4" style="color: var(--text-color);">Summary</h2>
-                    <p class="text-gray-700" style="color: var(--text-color);">
-                        I am a passionate developer with skills in AI, game development, and embedded systems. I have hands-on experience with Unity, Python, and C, specializing in game mechanics and interactive technologies. My projects include developing a VR training simulator and an AR light control system, showcasing my ability to integrate intelligent systems with user interaction.
-                    </p>
-                </section>
-
-                <section class="card">
-                    <h2 class="text-2xl font-bold section-title mb-4" style="color: var(--text-color);">Skills</h2>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="skill-tag">3D Printing</span>
-                        <span class="skill-tag">Arduino</span>
-                        <span class="skill-tag">C/C++</span>
-                        <span class="skill-tag">C#</span>
-                        <span class="skill-tag">IoT</span>
-                        <span class="skill-tag">Python</span>
-                        <span class="skill-tag">Robotics</span>
-                        <span class="skill-tag">Unity</span>
-                        <span class="skill-tag">Virtual Reality</span>
-                    </div>
-                </section>
-
-                <section class="card">
-                    <h2 class="text-2xl font-bold section-title mb-4" style="color: var(--text-color);">Interests</h2>
-                    <p class="text-gray-700" style="color: var(--text-color);">
-                        Technological Passions: Interests in AI, game development, and embedded systems.
-                    </p>
-                </section>
-
-                <!-- Contact Me Section (Moved inside the left column) -->
-                <section class="card">
-                    <div class="flex justify-between items-center">
-                        <h2 class="text-2xl font-bold section-title mb-4" style="color: var(--text-color); margin-bottom: 0;">Contact Me</h2>
-                        <button id="contact-me-toggle" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2"
-                                style="background-color: var(--accent-color); color: var(--header-text-color); transition: background-color 0.3s, color 0.3s; focus-ring-color: var(--accent-color);">
-                            <span id="contact-me-button-text">Show Contact Form</span>
-                            <svg id="contact-me-toggle-icon" class="ml-2 -mr-1 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                            </svg>
-                        </button>
-                    </div>
-                    <div id="contact-me-details" class="contact-form-container">
-                        <p class="mb-4 mt-4" style="color: var(--text-color);">
-                            Feel free to reach out if you have any questions, opportunities, or just want to connect!
-                        </p>
-                        <form action="#" method="POST" class="space-y-4">
-                            <div>
-                                <label for="name" class="block text-sm font-medium" style="color: var(--text-color);">Name</label>
-                                <input type="text" id="name" name="name" class="mt-1 block w-full rounded-md shadow-sm sm:text-sm p-2 border" style="border-color: var(--border-color);">
-                            </div>
-                            <div>
-                                <label for="email" class="block text-sm font-medium" style="color: var(--text-color);">Email</label>
-                                <input type="email" id="email" name="email" class="mt-1 block w-full rounded-md shadow-sm sm:text-sm p-2 border" style="border-color: var(--border-color);">
-                            </div>
-                            <div>
-                                <label for="subject" class="block text-sm font-medium" style="color: var(--text-color);">Subject</label>
-                                <input type="text" id="subject" name="subject" class="mt-1 block w-full rounded-md shadow-sm sm:text-sm p-2 border" style="border-color: var(--border-color);">
-                            </div>
-                            <div>
-                                <label for="message" class="block text-sm font-medium" style="color: var(--text-color);">Message</label>
-                                <textarea id="message" name="message" rows="4" class="mt-1 block w-full rounded-md shadow-sm sm:text-sm p-2 border" style="border-color: var(--border-color);"></textarea>
-                            </div>
-                            <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white" style="background-color: var(--accent-color); transition: background-color 0.3s;">
-                                Send Message
-                            </button>
-                        </form>
-                        <p class="text-sm mt-4" style="color: var(--text-color);">
-                            Alternatively, you can reach me directly at: <a href="mailto:kamunisujay@gmail.com" class="icon-link" style="color: var(--accent-color);">kamunisujay@gmail.com</a> or call <a href="tel:+919324595707" class="icon-link" style="color: var(--accent-color);">93245 95707</a>.
-                        </p>
-                    </div>
-                </section>
+    <!-- About Me Section -->
+    <section id="about" class="py-20 px-4 bg-gray-900">
+        <div class="container mx-auto flex flex-col md:flex-row items-center justify-center gap-12">
+            <div class="md:w-1/2 text-center md:text-left">
+                <h2 class="text-4xl font-bold text-white mb-4">About Me</h2>
+                <p class="text-indigo-400 text-lg mb-6 flex items-center justify-center md:justify-start">
+                    <i data-lucide="code" class="w-5 h-5 mr-2"></i> Transforming ideas into digital experiences &nbsp;
+                    <i data-lucide="sparkles" class="w-6 h-6"></i>
+                </p>
+                <h3 class="text-3xl font-semibold text-white mb-4">Hello, I'm <span class="text-indigo-400">Sujay Kamuni</span></h3>
+                <p class="text-gray-300 leading-relaxed mb-8">
+                    I am a passionate developer with skills in AI, game development, and embedded systems. I have hands-on experience with Unity, Python, and C, specializing in game mechanics and interactive technologies. My projects include developing a VR training simulator and an AR light control system, showcasing my ability to integrate intelligent systems with user interaction.
+                </p>
+                <h4 class="text-2xl font-semibold text-white mb-3">Education</h4>
+                <ul class="text-gray-300 list-disc list-inside mb-6">
+                    <li><strong>Diploma in Automation & Robotics:</strong> Vivekanand Education Society Polytechnic (2021-2024), Mumbai, Maharashtra</li>
+                    <li><strong>B.Tech in Robotics & Artificial Intelligence:</strong> K.J. Somaiya College of Engineering (2024-2027), Mumbai, Maharashtra</li>
+                </ul>
+                <h4 class="text-2xl font-semibold text-white mb-3">Experience</h4>
+                <ul class="text-gray-300 list-disc list-inside mb-6">
+                    <li><strong>Game Development Intern</strong> at Parallax Labs (06/2023-07/2023), Mumbai, Maharashtra
+                        <ul class="list-circle list-inside ml-4">
+                            <li>Worked on multiple projects.</li>
+                            <li>Gained hands-on experience in game development with Unity.</li>
+                            <li>Collaborated with a team to develop and refine game mechanics.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Research Intern</strong> at Indian Institute of Technology Bombay (IITB) (12/2024-01/2025), Mumbai, Maharashtra
+                        <ul class="list-circle list-inside ml-4">
+                            <li>Researched UAV powertrain components at IIT Bombay.</li>
+                            <li>Built a current-sensing system for engine start detection.</li>
+                            <li>Developed and tested motor control using microcontrollers.</li>
+                        </ul>
+                    </li>
+                </ul>
+                <h4 class="text-2xl font-semibold text-white mb-3">Interests</h4>
+                <ul class="text-gray-300 list-disc list-inside mb-8">
+                    <li>Technological Passions: Interests in AI, game development, and embedded systems.</li>
+                </ul>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                    <a href="SujayKamuniResume.pdf (1).PDF" download="SujayKamuniResume.pdf" class="inline-flex items-center justify-center px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-md transition-all duration-300 transform hover:scale-105">
+                        <i data-lucide="download" class="w-5 h-5 mr-2"></i> Download CV
+                    </a>
+                    <button onclick="scrollToSection('portfolio')" class="inline-flex items-center justify-center px-6 py-3 border border-indigo-600 text-indigo-400 hover:bg-indigo-600 hover:text-white font-semibold rounded-lg shadow-md transition-all duration-300 transform hover:scale-105">
+                        <i data-lucide="eye" class="w-5 h-5 mr-2"></i> View Projects
+                    </button>
+                </div>
             </div>
-
-            <!-- Right Column (Experience, Education, Projects, Testimonials) -->
-            <div class="lg:col-span-2">
-                <section class="card">
-                    <h2 class="text-2xl font-bold section-title mb-4" style="color: var(--text-color);">Experience</h2>
-                    <div class="mb-6">
-                        <h3 class="text-xl font-semibold" style="color: var(--accent-color);">Game Development Intern</h3>
-                        <p class="text-gray-600" style="color: var(--text-color);">Parallax Labs | Mumbai, Maharashtra | 06/2023-07/2023</p>
-                        <ul class="list-disc list-inside mt-2 text-gray-700" style="color: var(--text-color);">
-                            <li>Worked on multiple projects</li>
-                            <li>Gained hands-on experience in game development with Unity</li>
-                            <li>Collaborated with a team to develop and refine game mechanics</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-semibold" style="color: var(--accent-color);">Research Intern</h3>
-                        <p class="text-gray-600" style="color: var(--text-color);">Indian Institute of Technology Bombay (IITB) | Mumbai, Maharashtra | 12/2024-01/2025</p>
-                        <ul class="list-disc list-inside mt-2 text-gray-700" style="color: var(--text-color);">
-                            <li>Researched UAV powertrain components at IIT Bombay</li>
-                            <li>Built a current-sensing system for engine start detection</li>
-                            <li>Developed and tested motor control using microcontrollers</li>
-                        </ul>
-                    </div>
-                </section>
-
-                <section class="card">
-                    <h2 class="text-2xl font-bold section-title mb-4" style="color: var(--text-color);">Education</h2>
-                    <div class="mb-6">
-                        <h3 class="text-xl font-semibold" style="color: var(--accent-color);">Diploma in Automation & Robotics</h3>
-                        <p class="text-gray-600" style="color: var(--text-color);">Vivekanand Education Society Polytechnic | Mumbai, Maharashtra | 2021-2024</p>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-semibold" style="color: var(--accent-color);">B.Tech in Robotics & Artificial Intelligence</h3>
-                        <p class="text-gray-600" style="color: var(--text-color);">K.J. Somaiya College of Engineering | Mumbai, Maharashtra | 2024-2027</p>
-                    </div>
-                </section>
-
-                <section class="card">
-                    <h2 class="text-2xl font-bold section-title mb-4" style="color: var(--text-color);">Projects</h2>
-
-                    <!-- Project 1: Virtual Reality Army Training Simulator -->
-                    <div class="mb-6 border-b pb-4 last:border-b-0 last:pb-0" style="border-color: var(--border-color);">
-                        <div class="flex justify-between items-center project-item" onclick="toggleProject('vr-simulator')">
-                            <h3 class="text-xl font-semibold" style="color: var(--accent-color);">Virtual Reality Army Training Simulator</h3>
-                            <span class="text-2xl toggle-icon" id="vr-simulator-icon" style="color: var(--accent-color);">▶</span>
-                        </div>
-                        <p class="text-gray-600 mb-2" style="color: var(--text-color);">08/2023-10/2023</p>
-                        <div id="vr-simulator-details" class="project-details">
-                            <ul class="list-disc list-inside mt-2 text-gray-700" style="color: var(--text-color);">
-                                <li>Developed a VR-based training simulator for army soldiers, featuring mechanics like aiming, reloading, and weapon handling.</li>
-                                <li>Implemented interactive VR controls using Unity and C#.</li>
-                            </ul>
-                            <div class="mt-4">
-                                <p class="font-semibold" style="color: var(--text-color);">Demo Video:</p>
-                                <p class="text-gray-600">
-                                    <a href="https://drive.google.com/file/d/1XhEkmAdPQqkkjZkMHhCDHAEVag1LcePV/view?usp=drive_link" class="icon-link" target="_blank">
-                                        <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M2 6a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zm3.455 1.636A2 2 0 005 8v4a2 2 0 003.455 1.636L12 12V8l-3.545-2.364z"></path></svg>
-                                        Watch Demo
-                                    </a>
-                                </p>
-                                <p class="font-semibold mt-2" style="color: var(--text-color);">GitHub Repository:</p>
-                                <p class="text-gray-600">
-                                    <a href="#github-repo-link-1" class="icon-link" target="_blank">
-                                        <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 0C4.477 0 0 4.484 0 10.017c0 4.417 2.865 8.167 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.867-.013-1.702-2.782.603-3.369-1.34-3.369-1.34-.454-1.154-1.11-1.46-1.11-1.46-.908-.618.069-.606.069-.606 1.003.07 1.531 1.032 1.531 1.032.892 1.529 2.341 1.089 2.91.835.092-.647.35-1.089.636-1.338-2.22-.253-4.555-1.116-4.555-4.945 0-1.092.39-1.988 1.029-2.681-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.025A9.43 9.43 0 0110 4.887c.85.004 1.7.11 2.492.329 1.909-1.296 2.747-1.025 2.747-1.025.546 1.379.202 2.398.099 2.651.64.693 1.028 1.589 1.028 2.681 0 3.839-2.339 4.686-4.568 4.935.359.307.678.915.678 1.846 0 1.335-.012 2.41-.012 2.727 0 .268.18.579.688.482C17.13 18.17 20 14.418 20 10.017 20 4.484 15.522 0 10 0z" clip-rule="evenodd"></path></svg>
-                                        View Code (Placeholder)
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Project 2: Augmented Reality Light Control System -->
-                    <div class="mb-6 border-b pb-4 last:border-b-0 last:pb-0" style="border-color: var(--border-color);">
-                        <div class="flex justify-between items-center project-item" onclick="toggleProject('ar-light-control')">
-                            <h3 class="text-xl font-semibold" style="color: var(--accent-color);">Augmented Reality Light Control System</h3>
-                            <span class="text-2xl toggle-icon" id="ar-light-control-icon" style="color: var(--accent-color);">▶</span>
-                        </div>
-                        <p class="text-gray-600 mb-2" style="color: var(--text-color);">06/2023-07/2023</p>
-                        <div id="ar-light-control-details" class="project-details">
-                            <ul class="list-disc list-inside mt-2 text-gray-700" style="color: var(--text-color);">
-                                <li>Developed an AR-based system that allows users to control light intensity using hand gestures.</li>
-                                <li>Implemented real-time gesture recognition for a seamless and interactive user experience.</li>
-                            </ul>
-                            <div class="mt-4">
-                                <p class="font-semibold" style="color: var(--text-color);">Demo Video:</p>
-                                <p class="text-gray-600">
-                                    <a href="https://drive.google.com/file/d/1TV3gKycf4zpGdthb7q9uWF3nxrki5uDX/view?usp=drive_link" class="icon-link" target="_blank">
-                                        <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M2 6a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zm3.455 1.636A2 2 0 005 8v4a2 2 0 003.455 1.636L12 12V8l-3.545-2.364z"></path></svg>
-                                        Watch Demo
-                                    </a>
-                                </p>
-                                <p class="font-semibold mt-2" style="color: var(--text-color);">GitHub Repository:</p>
-                                <p class="text-gray-600">
-                                    <a href="#github-repo-link-2" class="icon-link" target="_blank">
-                                        <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 0C4.477 0 0 4.484 0 10.017c0 4.417 2.865 8.167 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.867-.013-1.702-2.782.603-3.369-1.34-3.369-1.34-.454-1.154-1.11-1.46-1.11-1.46-.908-.618.069-.606.069-.606 1.003.07 1.531 1.032 1.531 1.032.892 1.529 2.341 1.089 2.91.835.092-.647.35-1.089.636-1.338-2.22-.253-4.555-1.116-4.555-4.945 0-1.092.39-1.988 1.029-2.681-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.025A9.43 9.43 0 0110 4.887c.85.004 1.7.11 2.492.329 1.909-1.296 2.747-1.025 2.747-1.025.546 1.379.202 2.398.099 2.651.64.693 1.028 1.589 1.028 2.681 0 3.839-2.339 4.686-4.568 4.935.359.307.678.915.678 1.846 0 1.335-.012 2.41-.012 2.727 0 .268.18.579.688.482C17.13 18.17 20 14.418 20 10.017 20 4.484 15.522 0 10 0z" clip-rule="evenodd"></path></svg>
-                                        View Code (Placeholder)
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Project 3: AI based Crop Recommendation System -->
-                    <div class="mb-6 border-b pb-4 last:border-b-0 last:pb-0" style="border-color: var(--border-color);">
-                        <div class="flex justify-between items-center project-item" onclick="toggleProject('crop-recommendation')">
-                            <h3 class="text-xl font-semibold" style="color: var(--accent-color);">AI based Crop Recommendation System</h3>
-                            <span class="text-2xl toggle-icon" id="crop-recommendation-icon" style="color: var(--accent-color);">▶</span>
-                        </div>
-                        <p class="text-gray-600 mb-2" style="color: var(--text-color);">03/2025-05/2025</p>
-                        <div id="crop-recommendation-details" class="project-details">
-                            <ul class="list-disc list-inside mt-2 text-gray-700" style="color: var(--text-color);">
-                                <li>Developed an AI-powered crop prediction web application integrated with IoT sensor data for smart farming.</li>
-                                <li>Built the frontend and backend for real-time crop recommendations using Random Forest, with a user-friendly interface to visualize predictions based on live soil and environmental sensor inputs.</li>
-                            </ul>
-                            <div class="mt-4">
-                                <p class="font-semibold" style="color: var(--text-color);">Demo Video:</p>
-                                <p class="text-gray-600">
-                                    <a href="https://drive.google.com/file/d/1TUs43o26nM7ld52avZJ8HugbKFgSku6Q/view?usp=drive_link" class="icon-link" target="_blank">
-                                        <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M2 6a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zm3.455 1.636A2 2 0 005 8v4a2 2 0 003.455 1.636L12 12V8l-3.545-2.364z"></path></svg>
-                                        Watch Demo
-                                    </a>
-                                </p>
-                                <p class="font-semibold mt-2" style="color: var(--text-color);">GitHub Repository:</p>
-                                <p class="text-gray-600">
-                                    <a href="#github-repo-link-3" class="icon-link" target="_blank">
-                                        <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 0C4.477 0 0 4.484 0 10.017c0 4.417 2.865 8.167 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.867-.013-1.702-2.782.603-3.369-1.34-3.369-1.34-.454-1.154-1.11-1.46-1.11-1.46-.908-.618.069-.606.069-.606 1.003.07 1.531 1.032 1.531 1.032.892 1.529 2.341 1.089 2.91.835.092-.647.35-1.089.636-1.338-2.22-.253-4.555-1.116-4.555-4.945 0-1.092.39-1.988 1.029-2.681-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.025A9.43 9.43 0 0110 4.887c.85.004 1.7.11 2.492.329 1.909-1.296 2.747-1.025 2.747-1.025.546 1.379.202 2.398.099 2.651.64.693 1.028 1.589 1.028 2.681 0 3.839-2.339 4.686-4.568 4.935.359.307.678.915.678 1.846 0 1.335-.012 2.41-.012 2.727 0 .268.18.579.688.482C17.13 18.17 20 14.418 20 10.017 20 4.484 15.522 0 10 0z" clip-rule="evenodd"></path></svg>
-                                        View Code (Placeholder)
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                </section>
-
-                <section class="card">
-                    <h2 class="text-2xl font-bold section-title mb-4" style="color: var(--text-color);">Testimonials</h2>
-                    <div class="mb-4 italic" style="color: var(--text-color);">
-                        <p>"Sujay is a highly motivated and skilled developer. His work on the VR simulator was exceptional, demonstrating a strong grasp of Unity and C#."</p>
-                        <p class="text-right mt-2 font-semibold">- [Name of Recommender], [Title/Organization]</p>
-                    </div>
-                    <div class="italic" style="color: var(--text-color);">
-                        <p>"I was impressed by Sujay's ability to integrate complex gesture recognition into the AR light control system. He's a quick learner and a valuable team member."</p>
-                        <p class="text-right mt-2 font-semibold">- [Name of Recommender], [Title/Organization]</p>
-                    </div>
-                </section>
+            <div class="md:w-1/3 flex justify-center items-center">
+                <!-- Placeholder for profile image -->
+                <div class="w-64 h-64 bg-gray-800 rounded-full flex items-center justify-center overflow-hidden shadow-xl border-4 border-indigo-500">
+                    <img src="https://placehold.co/256x256/374151/d1d5db?text=Sujay+Photo" alt="Profile" class="w-full h-full object-cover">
+                </div>
             </div>
         </div>
+    </section>
 
-    </div>
+    <!-- Portfolio Showcase Section -->
+    <section id="portfolio" class="py-20 px-4 bg-gray-950">
+        <div class="container mx-auto">
+            <h2 class="text-4xl font-bold text-white text-center mb-12">Portfolio Showcase</h2>
 
+            <!-- Tabs for Projects, Certificates, Tech Stack -->
+            <div class="flex justify-center mb-12">
+                <div class="flex bg-gray-800 rounded-full p-1 shadow-inner">
+                    <button id="projects-tab" onclick="setActiveTab('projects')" class="px-6 py-3 rounded-full text-lg font-medium transition-all duration-300 bg-indigo-600 text-white shadow-md">
+                        <div class="flex items-center space-x-2">
+                            <i data-lucide="briefcase" class="w-5 h-5"></i>
+                            <span>Projects</span>
+                        </div>
+                    </button>
+                    <button id="certificates-tab" onclick="setActiveTab('certificates')" class="ml-2 px-6 py-3 rounded-full text-lg font-medium transition-all duration-300 text-gray-300 hover:bg-gray-700">
+                        <div class="flex items-center space-x-2">
+                            <i data-lucide="award" class="w-5 h-5"></i>
+                            <span>Certificates</span>
+                        </div>
+                    </button>
+                    <button id="techstack-tab" onclick="setActiveTab('techstack')" class="ml-2 px-6 py-3 rounded-full text-lg font-medium transition-all duration-300 text-gray-300 hover:bg-gray-700">
+                        <div class="flex items-center space-x-2">
+                            <i data-lucide="layers" class="w-5 h-5"></i>
+                            <span>Tech Stack</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
 
-    <!-- Footer Section -->
-    <footer class="text-center text-gray-500 text-sm mt-10 p-6" style="color: var(--text-color);">
-        <p>&copy; 2025 Sujay Kamuni. All rights reserved.</p>
-        <!-- Add social media links here if desired -->
+            <!-- Tab Content -->
+            <div class="tab-content">
+                <div id="projects-content" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Projects will be rendered here by JavaScript -->
+                </div>
+                <div id="certificates-content" class="hidden grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <!-- Certificates will be rendered here by JavaScript -->
+                </div>
+                <div id="techstack-content" class="hidden grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                    <!-- Tech Stack will be rendered here by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 px-4 bg-gray-900">
+        <div class="container mx-auto">
+            <h2 class="text-4xl font-bold text-white text-center mb-12">Get In Touch</h2>
+
+            <div class="flex flex-col lg:flex-row gap-12">
+                <!-- Contact Form -->
+                <div class="lg:w-1/2 bg-gray-800 rounded-xl shadow-lg p-8">
+                    <h3 class="text-2xl font-semibold text-white mb-6">Have something to discuss? Send me a message and let's talk!</h3>
+                    <form class="space-y-6">
+                        <div>
+                            <label for="contact-name" class="block text-gray-300 text-sm font-medium mb-2">Name</label>
+                            <input
+                                type="text"
+                                id="contact-name"
+                                class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                placeholder="Enter your name"
+                            />
+                        </div>
+                        <div>
+                            <label for="contact-email" class="block text-gray-300 text-sm font-medium mb-2">Email</label>
+                            <input
+                                type="email"
+                                id="contact-email"
+                                class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                placeholder="Enter your email"
+                            />
+                        </div>
+                        <div>
+                            <label for="contact-message" class="block text-gray-300 text-sm font-medium mb-2">Message</label>
+                            <textarea
+                                id="contact-message"
+                                rows="5"
+                                class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                placeholder="Write your message here..."
+                            ></textarea>
+                        </div>
+                        <button
+                            type="submit"
+                            class="w-full px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 flex items-center justify-center"
+                        >
+                            <i data-lucide="send" class="w-5 h-5 mr-2"></i> Send Message
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Comments Section -->
+                <div class="lg:w-1/2 bg-gray-800 rounded-xl shadow-lg p-8">
+                    <h3 class="text-2xl font-semibold text-white mb-6 flex items-center">
+                        <i data-lucide="message-square" class="w-6 h-6 mr-2"></i> Comments (<span id="comments-count">0</span>)
+                    </h3>
+                    <div id="comments-container" class="space-y-6 max-h-96 overflow-y-auto pr-2 custom-scrollbar">
+                        <!-- Comments will be rendered here by JavaScript -->
+                    </div>
+
+                    <!-- Add New Comment -->
+                    <div class="mt-8 pt-6 border-t border-gray-700">
+                        <h4 class="text-xl font-semibold text-white mb-4">Post a Comment</h4>
+                        <div class="space-y-4">
+                            <div>
+                                <input
+                                    type="text"
+                                    id="new-comment-name"
+                                    placeholder="Your Name"
+                                    class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                />
+                            </div>
+                            <div>
+                                <textarea
+                                    id="new-comment-message"
+                                    placeholder="Your Message"
+                                    rows="3"
+                                    class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                ></textarea>
+                            </div>
+                            <button
+                                id="post-comment-btn"
+                                class="w-full px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 flex items-center justify-center"
+                            >
+                                Post Comment
+                            </button>
+                        </div>
+                    </div>
+                    <p id="user-id-display" class="text-gray-400 text-sm mt-4 text-center hidden"></p>
+                </div>
+            </div>
+
+            <!-- Connect With Me -->
+            <div class="mt-16 bg-gray-800 rounded-xl shadow-lg p-8 text-center">
+                <h3 class="text-2xl font-semibold text-white mb-6">Connect With Me</h3>
+                <div class="flex flex-wrap justify-center gap-6">
+                    <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" class="flex flex-col items-center justify-center p-4 bg-gray-700 rounded-lg shadow-md hover:bg-indigo-600 transition-colors duration-300 transform hover:scale-105 w-32 h-32">
+                        <i data-lucide="instagram" class="w-10 h-10 text-white mb-2"></i>
+                        <span class="text-white text-sm">Instagram</span>
+                    </a>
+                    <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" class="flex flex-col items-center justify-center p-4 bg-gray-700 rounded-lg shadow-md hover:bg-indigo-600 transition-colors duration-300 transform hover:scale-105 w-32 h-32">
+                        <i data-lucide="youtube" class="w-10 h-10 text-white mb-2"></i>
+                        <span class="text-white text-sm">Youtube</span>
+                    </a>
+                    <a href="https://github.com/" target="_blank" rel="noopener noreferrer" class="flex flex-col items-center justify-center p-4 bg-gray-700 rounded-lg shadow-md hover:bg-indigo-600 transition-colors duration-300 transform hover:scale-105 w-32 h-32">
+                        <i data-lucide="github" class="w-10 h-10 text-white mb-2"></i>
+                        <span class="text-white text-sm">Github</span>
+                    </a>
+                    <a href="tel:+919324595707" class="flex flex-col items-center justify-center p-4 bg-gray-700 rounded-lg shadow-md hover:bg-indigo-600 transition-colors duration-300 transform hover:scale-105 w-32 h-32">
+                        <i data-lucide="phone" class="w-10 h-10 text-white mb-2"></i>
+                        <span class="text-white text-sm">Phone</span>
+                    </a>
+                    <a href="mailto:kamunisujay@gmail.com" class="flex flex-col items-center justify-center p-4 bg-gray-700 rounded-lg shadow-md hover:bg-indigo-600 transition-colors duration-300 transform hover:scale-105 w-32 h-32">
+                        <i data-lucide="mail" class="w-10 h-10 text-white mb-2"></i>
+                        <span class="text-white text-sm">Email</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-950 py-8 px-4 text-center text-gray-400 text-sm">
+        <div class="container mx-auto">
+            &copy; <span id="current-year"></span> Sujay Kamuni. All Rights Reserved.
+        </div>
     </footer>
 
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, query, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    <script>
-        function toggleProject(projectId) {
-            const details = document.getElementById(`${projectId}-details`);
-            const icon = document.getElementById(`${projectId}-icon`);
+        // Global variables for Firebase instances and user ID
+        let db;
+        let auth;
+        let currentUserId = null;
+        let isAuthReady = false;
 
-            if (details.classList.contains('expanded')) {
-                details.classList.remove('expanded');
-                icon.classList.remove('expanded');
-                icon.textContent = '▶'; // Right arrow
-            } else {
-                details.classList.add('expanded');
-                icon.classList.add('expanded');
-                icon.textContent = '▼'; // Down arrow
+        // Data for portfolio sections
+        const projectsData = [
+            {
+                id: 1,
+                title: "Virtual Reality Army Training Simulator",
+                description: "Developed a VR-based training simulator for army soldiers, featuring mechanics like aiming, reloading, and weapon handling. Implemented interactive VR controls using Unity and C#.",
+                image: "https://placehold.co/400x250/1a202c/e2e8f0?text=VR+Simulator",
+                liveDemo: "#", // Placeholder
+                details: "#" // Placeholder
+            },
+            {
+                id: 2,
+                title: "Augmented Reality Light Control System",
+                description: "Developed an AR-based system that allows users to control light intensity using hand gestures. Implemented real-time gesture recognition for a seamless and interactive user experience.",
+                image: "https://placehold.co/400x250/1a202c/e2e8f0?text=AR+Light+Control",
+                liveDemo: "#", // Placeholder
+                details: "#" // Placeholder
+            },
+            {
+                id: 3,
+                title: "AI-based Crop Recommendation System",
+                description: "Developed an AI-powered crop prediction web application integrated with IoT sensor data for smart farming. Built the frontend and backend for real-time crop recommendations using Random Forest, with a user-friendly interface to visualize predictions based on live soil and environmental sensor inputs.",
+                image: "https://placehold.co/400x250/1a202c/e2e8f0?text=AI+Crop+System",
+                liveDemo: "#", // Placeholder
+                details: "#" // Placeholder
+            },
+        ];
+
+        const certificatesData = [
+            { id: 1, image: "https://placehold.co/300x200/1a202c/e2e8f0?text=Certificate+1" }, // Placeholder
+            { id: 2, image: "https://placehold.co/300x200/1a202c/e2e8f0?text=Certificate+2" }, // Placeholder
+            { id: 3, image: "https://placehold.co/300x200/1a202c/e2e8f0?text=Certificate+3" }, // Placeholder
+            { id: 4, image: "https://placehold.co/300x200/1a202c/e2e8f0?text=Certificate+4" }, // Placeholder
+            { id: 5, image: "https://placehold.co/300x200/1a202c/e2e8f0?text=Certificate+5" }, // Placeholder
+            { id: 6, image: "https://placehold.co/300x200/1a202c/e2e8f0?text=Certificate+6" }, // Placeholder
+        ];
+
+        const techStackData = [
+            { name: "3D Printing", icon: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/3D_printing_icon.svg/1200px-3D_printing_icon.svg.png" },
+            { name: "Arduino", icon: "https://upload.wikimedia.org/wikipedia/commons/8/87/Arduino_Logo.svg" },
+            { name: "C/C++", icon: "https://upload.wikimedia.org/wikipedia/commons/1/18/ISO_C%2B%2B_Logo.svg" },
+            { name: "C#", icon: "https://upload.wikimedia.org/wikipedia/commons/0/0d/C_Sharp_wordmark.svg" },
+            { name: "IoT", icon: "https://upload.wikimedia.org/wikipedia/commons/b/b5/IoT_Logo.svg" },
+            { name: "Python", icon: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" },
+            { name: "Robotics", icon: "https://upload.wikimedia.org/wikipedia/commons/4/4e/Robot_icon_-_The_Noun_Project.svg" },
+            { name: "Unity", icon: "https://upload.wikimedia.org/wikipedia/commons/1/19/Unity_Technologies_logo.svg" },
+            { name: "Virtual Reality", icon: "https://upload.wikimedia.org/wikipedia/commons/a/a4/Virtual_reality_icon.svg" },
+            { name: "HTML", icon: "https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg" },
+            { name: "CSS", icon: "https://upload.wikimedia.org/wikipedia/commons/d/d5/CSS3_logo_and_wordmark.svg" },
+            { name: "JavaScript", icon: "https://upload.wikimedia.org/wikipedia/commons/9/99/Unofficial_JavaScript_logo_2.svg" },
+            { name: "Tailwind CSS", icon: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg" },
+            { name: "ReactJS", icon: "https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" },
+            { name: "NodeJS", icon: "https://upload.wikimedia.org/wikipedia/commons/d/d9/Node.js_logo.svg" },
+            { name: "Firebase", icon: "https://www.gstatic.com/devrel-devsite/prod/vc3d29487103a4933991f80f14690e0c90c746765275e7a9b6c0032f65a12f5e7/firebase/images/touchicon-180.png" },
+        ];
+
+        // Function to scroll to a section
+        window.scrollToSection = (id) => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
             }
-        }
+        };
 
-        // Dark Mode Toggle Logic
-        const themeToggleBtn = document.getElementById('theme-toggle');
-        const sunIcon = document.getElementById('sun-icon');
-        const moonIcon = document.getElementById('moon-icon');
+        // Function to set active tab in Portfolio section
+        window.setActiveTab = (tabName) => {
+            const tabs = ['projects', 'certificates', 'techstack'];
+            tabs.forEach(tab => {
+                const tabBtn = document.getElementById(`${tab}-tab`);
+                const tabContent = document.getElementById(`${tab}-content`);
+                if (tabBtn && tabContent) {
+                    if (tab === tabName) {
+                        tabBtn.classList.add('bg-indigo-600', 'text-white', 'shadow-md');
+                        tabBtn.classList.remove('text-gray-300', 'hover:bg-gray-700');
+                        tabContent.classList.remove('hidden');
+                        tabContent.classList.add('grid'); // Ensure grid display for content
+                    } else {
+                        tabBtn.classList.remove('bg-indigo-600', 'text-white', 'shadow-md');
+                        tabBtn.classList.add('text-gray-300', 'hover:bg-gray-700');
+                        tabContent.classList.add('hidden');
+                        tabContent.classList.remove('grid'); // Remove grid display when hidden
+                    }
+                }
+            });
+            // Re-render content for the active tab
+            if (tabName === 'projects') renderProjects();
+            else if (tabName === 'certificates') renderCertificates();
+            else if (tabName === 'techstack') renderTechStack();
+        };
 
-        // Function to set the theme
-        function setTheme(isDarkMode) {
-            if (isDarkMode) {
-                document.body.classList.add('dark-mode');
-                sunIcon.style.display = 'block';
-                moonIcon.style.display = 'none';
-                localStorage.setItem('theme', 'dark');
-            } else {
-                document.body.classList.remove('dark-mode');
-                sunIcon.style.display = 'none';
-                moonIcon.style.display = 'block';
-                localStorage.setItem('theme', 'light');
+        // Render Projects
+        const renderProjects = () => {
+            const projectsContainer = document.getElementById('projects-content');
+            if (!projectsContainer) return;
+            projectsContainer.innerHTML = projectsData.map(project => `
+                <div class="bg-gray-800 rounded-xl shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300">
+                    <img src="${project.image}" alt="${project.title}" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/400x250/1a202c/e2e8f0?text=Image+Not+Found';" />
+                    <div class="p-6">
+                        <h3 class="text-2xl font-semibold text-white mb-2">${project.title}</h3>
+                        <p class="text-gray-300 text-sm mb-4">${project.description}</p>
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <a href="${project.liveDemo}" target="_blank" rel="noopener noreferrer" class="flex-1 text-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-medium transition-colors duration-300">
+                                Live Demo
+                            </a>
+                            <a href="${project.details}" target="_blank" rel="noopener noreferrer" class="flex-1 text-center px-4 py-2 border border-indigo-600 text-indigo-400 hover:bg-indigo-600 hover:text-white rounded-lg text-sm font-medium transition-colors duration-300">
+                                Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        };
+
+        // Render Certificates
+        const renderCertificates = () => {
+            const certificatesContainer = document.getElementById('certificates-content');
+            if (!certificatesContainer) return;
+            certificatesContainer.innerHTML = certificatesData.map(cert => `
+                <div class="bg-gray-800 rounded-xl shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300">
+                    <img src="${cert.image}" alt="Certificate ${cert.id}" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/300x200/1a202c/e2e8f0?text=Image+Not+Found';" />
+                    <div class="p-4 text-center">
+                        <p class="text-gray-300 text-sm">Certificate ${cert.id}</p>
+                    </div>
+                </div>
+            `).join('');
+        };
+
+        // Render Tech Stack
+        const renderTechStack = () => {
+            const techStackContainer = document.getElementById('techstack-content');
+            if (!techStackContainer) return;
+            techStackContainer.innerHTML = techStackData.map(tech => `
+                <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col items-center justify-center text-center transform hover:scale-105 transition-transform duration-300">
+                    <img src="${tech.icon}" alt="${tech.name}" class="w-16 h-16 mb-4 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/64x64/1a202c/e2e8f0?text=Icon';" />
+                    <p class="text-white font-medium">${tech.name}</p>
+                </div>
+            `).join('');
+        };
+
+        // Render Comments
+        const renderComments = (comments) => {
+            const commentsContainer = document.getElementById('comments-container');
+            const commentsCountSpan = document.getElementById('comments-count');
+            if (!commentsContainer || !commentsCountSpan) return;
+
+            commentsCountSpan.textContent = comments.length;
+            if (comments.length === 0) {
+                commentsContainer.innerHTML = '<p class="text-gray-400 text-center">No comments yet. Be the first to comment!</p>';
+                return;
             }
-        }
 
-        // Check for saved theme preference on load
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'dark') {
-                setTheme(true);
-            } else {
-                setTheme(false); // Default to light if no preference or 'light'
+            commentsContainer.innerHTML = comments.map(comment => {
+                const timestamp = comment.timestamp ? new Date(comment.timestamp.toDate()).toLocaleString() : 'Just now';
+                const initial = comment.name ? comment.name[0].toUpperCase() : 'U';
+                return `
+                    <div class="bg-gray-700 p-4 rounded-lg shadow-md border border-gray-600">
+                        <div class="flex items-center mb-2">
+                            <div class="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold text-lg mr-3">
+                                ${initial}
+                            </div>
+                            <div>
+                                <p class="font-semibold text-white">${comment.name || 'Anonymous'}</p>
+                                <p class="text-gray-400 text-xs">${timestamp}</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-200">${comment.message}</p>
+                    </div>
+                `;
+            }).join('');
+        };
+
+        // Handle Add Comment
+        const handleAddComment = async () => {
+            const newCommentNameInput = document.getElementById('new-comment-name');
+            const newCommentMessageInput = document.getElementById('new-comment-message');
+
+            const name = newCommentNameInput.value.trim();
+            const message = newCommentMessageInput.value.trim();
+
+            if (!name || !message) {
+                console.error("Please enter both your name and a message.");
+                return;
             }
-            // Initialize contact form state on load
-            const contactDetails = document.getElementById('contact-me-details');
-            const contactToggleButtonText = document.getElementById('contact-me-button-text');
-            const contactToggleIcon = document.getElementById('contact-me-toggle-icon');
 
-            // Ensure it starts collapsed
-            contactDetails.classList.remove('expanded');
-            contactToggleButtonText.textContent = 'Show Contact Form';
-            contactToggleIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>'; // Right arrow
-        });
-
-        // Toggle theme on button click
-        themeToggleBtn.addEventListener('click', () => {
-            const isDarkMode = document.body.classList.contains('dark-mode');
-            setTheme(!isDarkMode);
-        });
-
-        // Contact Me Toggle Logic
-        const contactMeToggleButton = document.getElementById('contact-me-toggle');
-        contactMeToggleButton.addEventListener('click', () => {
-            const contactDetails = document.getElementById('contact-me-details');
-            const contactToggleButtonText = document.getElementById('contact-me-button-text');
-            const contactToggleIcon = document.getElementById('contact-me-toggle-icon');
-
-            if (contactDetails.classList.contains('expanded')) {
-                contactDetails.classList.remove('expanded');
-                contactToggleButtonText.textContent = 'Show Contact Form';
-                contactToggleIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>'; // Right arrow
-            } else {
-                contactDetails.classList.add('expanded');
-                contactToggleButtonText.textContent = 'Hide Contact Form';
-                contactToggleIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>'; // Down arrow
+            if (!db || !currentUserId) {
+                console.error("Firebase not initialized or user not authenticated. Please try again.");
+                return;
             }
-        });
+
+            try {
+                // Public data for comments
+                await addDoc(collection(db, `artifacts/${__app_id}/public/data/comments`), {
+                    name: name,
+                    message: message,
+                    timestamp: serverTimestamp(),
+                    userId: currentUserId
+                });
+                newCommentNameInput.value = '';
+                newCommentMessageInput.value = '';
+            } catch (error) {
+                console.error("Error adding comment:", error);
+            }
+        };
+
+        // Initialize Firebase and set up listeners
+        window.onload = async () => {
+            // Replace Lucide icons after DOM is loaded
+            lucide.createIcons();
+
+            // Set current year in footer
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            // Initialize Firebase
+            try {
+                const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+                const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+
+                if (Object.keys(firebaseConfig).length === 0) {
+                    console.error("Firebase config is missing. Cannot initialize Firebase.");
+                    return;
+                }
+
+                const app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+
+                onAuthStateChanged(auth, async (user) => {
+                    if (user) {
+                        currentUserId = user.uid;
+                    } else {
+                        try {
+                            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                                await signInWithCustomToken(auth, __initial_auth_token);
+                            } else {
+                                await signInAnonymously(auth);
+                            }
+                            currentUserId = auth.currentUser?.uid || crypto.randomUUID(); // Ensure userId is set after sign-in
+                        } catch (error) {
+                            console.error("Error during Firebase anonymous sign-in:", error);
+                            currentUserId = crypto.randomUUID(); // Fallback to random UUID
+                        }
+                    }
+                    isAuthReady = true; // Mark authentication as ready
+                    const userIdDisplay = document.getElementById('user-id-display');
+                    if (userIdDisplay && currentUserId) {
+                        userIdDisplay.textContent = `Your User ID: ${currentUserId}`;
+                        userIdDisplay.classList.remove('hidden');
+                    }
+                    setupFirestoreListener(); // Set up Firestore listener only after auth is ready
+                });
+
+            } catch (error) {
+                console.error("Error initializing Firebase:", error);
+            }
+
+            // Set initial active tab and render content
+            setActiveTab('projects');
+
+            // Add event listener for posting comments
+            const postCommentBtn = document.getElementById('post-comment-btn');
+            if (postCommentBtn) {
+                postCommentBtn.addEventListener('click', handleAddComment);
+            }
+        };
+
+        // Setup Firestore listener for comments
+        const setupFirestoreListener = () => {
+            if (db && isAuthReady && currentUserId) {
+                const commentsCollectionRef = collection(db, `artifacts/${__app_id}/public/data/comments`);
+                const q = query(commentsCollectionRef); // orderBy is omitted as per instructions
+
+                onSnapshot(q, (snapshot) => {
+                    const fetchedComments = snapshot.docs.map(doc => ({
+                        id: doc.id,
+                        ...doc.data()
+                    }));
+                    // Sort comments by timestamp in descending order (newest first) in memory
+                    fetchedComments.sort((a, b) => (b.timestamp?.toDate() || 0) - (a.timestamp?.toDate() || 0));
+                    renderComments(fetchedComments);
+                }, (error) => {
+                    console.error("Error fetching comments:", error);
+                });
+            }
+        };
     </script>
 </body>
 </html>
